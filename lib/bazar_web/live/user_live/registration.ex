@@ -56,25 +56,28 @@ defmodule BazarWeb.UserLive.Registration do
 
   @impl true
   def handle_event("save", %{"user" => user_params}, socket) do
-    case Accounts.register_user(user_params) do
-      {:ok, user} ->
-        {:ok, _} =
-          Accounts.deliver_login_instructions(
-            user,
-            &url(~p"/users/log-in/#{&1}")
-          )
+    {:error}
 
-        {:noreply,
-         socket
-         |> put_flash(
-           :info,
-           "An email was sent to #{user.email}, please access it to confirm your account."
-         )
-         |> push_navigate(to: ~p"/users/log-in")}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign_form(socket, changeset)}
-    end
+    # TODO revisar processo de registro, temporariamente não será necessário, mas depois para multi tenant sim
+#    case Accounts.register_user(user_params) do
+#      {:ok, user} ->
+#        {:ok, _} =
+#          Accounts.deliver_login_instructions(
+#            user,
+#            &url(~p"/users/log-in/#{&1}")
+#          )
+#
+#        {:noreply,
+#         socket
+#         |> put_flash(
+#           :info,
+#           "An email was sent to #{user.email}, please access it to confirm your account."
+#         )
+#         |> push_navigate(to: ~p"/users/log-in")}
+#
+#      {:error, %Ecto.Changeset{} = changeset} ->
+#        {:noreply, assign_form(socket, changeset)}
+#    end
   end
 
   def handle_event("validate", %{"user" => user_params}, socket) do
