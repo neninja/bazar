@@ -21,14 +21,18 @@ defmodule Bazar.Catalog.Product do
   end
 
   @doc false
-  def changeset(product, attrs) do
-      product
-      |> cast(attrs, [:image_url, :ludopedia_link, :description, :sale_reason, :condition, :recommendation, :tags, :price, :trade_policy])
-      |> validate_required([:description, :price, :trade_policy])
-      |> validate_subset(:tags, @available_tags)
-      |> validate_inclusion(:trade_policy, @trade_options)
-    end
+  def changeset(product, attrs, scope \\ nil) do
+    product
+    |> cast(attrs, [:image_url, :ludopedia_link, :description, :sale_reason, :condition, :recommendation, :tags, :price, :trade_policy])
+    |> maybe_put_user_id(scope)
+    |> validate_required([:description, :price, :trade_policy])
+    |> validate_subset(:tags, @available_tags)
+    |> validate_inclusion(:trade_policy, @trade_options)
+  end
 
-    def available_tags, do: @available_tags
-    def trade_options, do: @trade_options
+  defp maybe_put_user_id(changeset, nil), do: changeset
+  defp maybe_put_user_id(changeset, scope), do: put_change(changeset, :user_id, scope.user.id)
+
+  def available_tags, do: @available_tags
+  def trade_options, do: @trade_options
 end
