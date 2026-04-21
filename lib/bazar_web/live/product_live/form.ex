@@ -25,14 +25,14 @@ defmodule BazarWeb.ProductLive.Form do
           type="select"
           multiple
           label="Tags"
-          options={MeuApp.Catalog.Product.available_tags()}
+          options={Bazar.Catalog.Product.available_tags()}
         />
         <.input field={@form[:price]} type="number" label="Price" step="any" />
         <.input
           field={@form[:trade_policy]}
           type="select"
           label="Negociação"
-          options={MeuApp.Catalog.Product.trade_options()}
+          options={Bazar.Catalog.Product.trade_options()}
         />
         <footer>
           <.button phx-disable-with="Saving..." variant="primary">Save Product</.button>
