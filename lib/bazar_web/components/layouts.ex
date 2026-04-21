@@ -46,6 +46,23 @@ defmodule BazarWeb.Layouts do
   end
 
   @doc """
+  Renders the public store layout (sem header de autenticação).
+  """
+  attr :flash, :map, required: true, doc: "the map of flash messages"
+
+  slot :inner_block, required: true
+
+  def store(assigns) do
+    ~H"""
+    <main>
+      {render_slot(@inner_block)}
+    </main>
+
+    <.flash_group flash={@flash} />
+    """
+  end
+
+  @doc """
   Shows the flash group with standard titles and content.
 
   ## Examples

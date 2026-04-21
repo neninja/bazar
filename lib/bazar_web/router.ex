@@ -17,10 +17,28 @@ defmodule BazarWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :public_browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {BazarWeb.Layouts, :store_root}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
   scope "/", BazarWeb do
     pipe_through :browser
 
     get "/", PageController, :home
+  end
+
+  scope "/", BazarWeb do
+    pipe_through :public_browser
+
+    live_session :public_store do
+      live "/loja", StoreLive.Index, :index
+      live "/loja/:id", StoreLive.Show, :show
+    end
   end
 
   # Other scopes may use custom stacks.

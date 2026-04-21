@@ -14,6 +14,7 @@ defmodule Bazar.Application do
        repos: Application.fetch_env!(:bazar, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:bazar, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Bazar.PubSub},
+      BazarWeb.Presence,
       # Start a worker by calling: Bazar.Worker.start_link(arg)
       # {Bazar.Worker, arg},
       # Start to serve requests, typically the last entry
