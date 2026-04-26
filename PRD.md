@@ -24,17 +24,17 @@ Em feiras e encontros de jogos de tabuleiro, compradores e vendedores negociam p
 [Espaço físico]
       │
       ▼
-QR Code / URL da loja ou URL direta do produto
+URL da loja
       │
       ▼
-Vitrine (/loja) ◄──────────────────────────────────────┐
-  - Lista de produtos                                   │
-  - Contador: "X pessoas na loja agora"                 │
-  - Cards: imagem + preço + descrição curta             │
-  - Botão "Ver mais" por produto                        │
-      │                                                 │
-      ▼                                                 │
-Produto (/loja/:id) ───────── botão voltar ─────────────┘
+Vitrine (/) ◄───────────────────────────────────────┐
+  - Lista de produtos                               │
+  - Contador: "X pessoas na loja agora"             │
+  - Cards: imagem + preço + descrição curta         │
+  - Botão "Ver mais" por produto                    │
+      │                                             │
+      ▼                                             │
+Produto (/products/:id) ────── botão voltar ────────┘
   - Imagem em destaque
   - Preço
   - Descrição completa
@@ -46,7 +46,7 @@ Produto (/loja/:id) ───────── botão voltar ──────
   - Contador: "X pessoas vendo este produto agora"
 ```
 
-1. O visitante acessa a URL da loja (ou uma URL direta de produto compartilhada por QR code / link).
+1. O visitante acessa a URL da loja.
 2. Ele vê a listagem de produtos disponíveis e quantas pessoas estão na loja naquele momento.
 3. Ao entrar em um produto, vê os detalhes e quantas pessoas estão visualizando aquele produto agora.
 4. Não há botão de login, carrinho, favoritos ou qualquer ação além de navegar.
@@ -69,19 +69,17 @@ Produto (/loja/:id) ───────── botão voltar ──────
 
 ### 1. Listagem de Produtos (`/`)
 
-**O que o usuário vê:**
 - Contador de usuários ativos na loja agora ("X pessoas aqui agora")
-- Grade de cards de produto (scroll vertical, 1 coluna em mobile)
+- Grade de cards de produto (scroll vertical, 1 coluna em mobile) com o seguinte layout:
+  - Imagem do produto (destaque visual, ocupa a maior parte do card)
+  - Nome / Descrição curta (primeiras ~80 chars)
+  - Preço (destaque)
+  - Tags (ex: "Estratégia", "Cooperativo")
+  - Política de troca (ex: "Venda ou Troca")
+  - Botão / área clicável "Ver mais"
 
-**Card de produto contém:**
-- Imagem do produto (destaque visual, ocupa a maior parte do card)
-- Nome / Descrição curta (primeiras ~80 chars)
-- Preço (destaque)
-- Tags (ex: "Estratégia", "Cooperativo")
-- Política de troca (ex: "Venda ou Troca")
-- Botão / área clicável "Ver mais"
+#### Comportamento
 
-**Comportamento:**
 - Ao entrar na página, o visitante é registrado anonimamente como "presente na loja"
 - Contador de usuários na loja atualiza em tempo real para todos os visitantes
 - Ao sair da página, o contador decrementa automaticamente
@@ -90,9 +88,8 @@ Produto (/loja/:id) ───────── botão voltar ──────
 
 ### 2. Página de Produto (`/products/:id`)
 
-**O que o usuário vê:**
 - Imagem do produto (tamanho grande, mobile-first)
-- Contador de usuários vendo este produto agora ("X pessoas vendo isso")
+- Contador de usuários vendo este produto agora ("X pessoas vendo também")
 - Preço em destaque
 - Descrição completa
 - Condição do produto
@@ -102,7 +99,8 @@ Produto (/loja/:id) ───────── botão voltar ──────
 - Política (Somente Venda / Venda ou Troca)
 - Link Ludopedia (referência externa, abre em nova aba)
 
-**Comportamento:**
+#### Comportamento
+
 - Ao entrar, visitante é registrado como "presente neste produto"
 - Ao sair (navegar para outra página ou fechar), é removido do produto
 - Contador do produto é independente do contador da loja
@@ -157,7 +155,7 @@ Produto (/loja/:id) ───────── botão voltar ──────
 │                         │
 │   [    IMAGEM GRANDE  ] │
 │                         │
-│  3 pessoas vendo isso   │
+│  3 pessoas vendo tsmbém │
 │                         │
 │  R$ 150,00              │
 │  Venda ou Troca         │
