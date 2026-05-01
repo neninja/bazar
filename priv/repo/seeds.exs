@@ -16,7 +16,7 @@ alias Bazar.Catalog.Product
 alias Bazar.Repo
 
 seed_users = [
-  %{email: "admin@mail.com", password: "1234!@#$qwer"},
+  %{email: "admin@mail.com", password: "1234!@#$qwer"}
 ]
 
 insert_or_update_user = fn attrs ->

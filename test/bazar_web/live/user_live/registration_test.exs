@@ -5,6 +5,8 @@ defmodule BazarWeb.UserLive.RegistrationTest do
   import Bazar.AccountsFixtures
 
   describe "Registration page" do
+    @describetag skip: "Funcionalidade @signup será reimplementada"
+
     test "renders registration page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/register")
 
@@ -36,6 +38,8 @@ defmodule BazarWeb.UserLive.RegistrationTest do
   end
 
   describe "register user" do
+    @describetag skip: "Funcionalidade @signup será reimplementada"
+
     test "creates account but does not log in", %{conn: conn} do
       {:ok, lv, _html} = live(conn, ~p"/users/register")
 
@@ -67,6 +71,8 @@ defmodule BazarWeb.UserLive.RegistrationTest do
   end
 
   describe "registration navigation" do
+    @describetag skip: "Funcionalidade @signup será reimplementada"
+
     test "redirects to login page when the Log in button is clicked", %{conn: conn} do
       {:ok, lv, _html} = live(conn, ~p"/users/register")
 

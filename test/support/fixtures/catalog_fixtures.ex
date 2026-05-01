@@ -17,8 +17,8 @@ defmodule Bazar.CatalogFixtures do
         price: "120.5",
         recommendation: "some recommendation",
         sale_reason: "some sale_reason",
-        tags: ["option1", "option2"],
-        trade_policy: "some trade_policy"
+        tags: ["Estratégia", "Carteado"],
+        trade_policy: "Somente Venda"
       })
 
     {:ok, product} = Bazar.Catalog.create_product(scope, attrs)

@@ -4,9 +4,39 @@ defmodule BazarWeb.ProductLiveTest do
   import Phoenix.LiveViewTest
   import Bazar.CatalogFixtures
 
-  @create_attrs %{description: "some description", image_url: "some image_url", ludopedia_link: "some ludopedia_link", sale_reason: "some sale_reason", condition: "some condition", recommendation: "some recommendation", tags: ["option1", "option2"], price: "120.5", trade_policy: "some trade_policy"}
-  @update_attrs %{description: "some updated description", image_url: "some updated image_url", ludopedia_link: "some updated ludopedia_link", sale_reason: "some updated sale_reason", condition: "some updated condition", recommendation: "some updated recommendation", tags: ["option1"], price: "456.7", trade_policy: "some updated trade_policy"}
-  @invalid_attrs %{description: nil, image_url: nil, ludopedia_link: nil, sale_reason: nil, condition: nil, recommendation: nil, tags: [], price: nil, trade_policy: nil}
+  @create_attrs %{
+    description: "some description",
+    image_url: "some image_url",
+    ludopedia_link: "some ludopedia_link",
+    sale_reason: "some sale_reason",
+    condition: "some condition",
+    recommendation: "some recommendation",
+    tags: ["Estratégia", "Carteado"],
+    price: "120.5",
+    trade_policy: "Somente Venda"
+  }
+  @update_attrs %{
+    description: "some updated description",
+    image_url: "some updated image_url",
+    ludopedia_link: "some updated ludopedia_link",
+    sale_reason: "some updated sale_reason",
+    condition: "some updated condition",
+    recommendation: "some updated recommendation",
+    tags: ["Estratégia"],
+    price: "456.7",
+    trade_policy: "Somente Venda"
+  }
+  @invalid_attrs %{
+    description: nil,
+    image_url: nil,
+    ludopedia_link: nil,
+    sale_reason: nil,
+    condition: nil,
+    recommendation: nil,
+    tags: [],
+    price: nil,
+    trade_policy: nil
+  }
 
   setup :register_and_log_in_user
 

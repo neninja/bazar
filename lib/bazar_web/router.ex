@@ -62,7 +62,6 @@ defmodule BazarWeb.Router do
     end
 
     post "/users/update-password", UserSessionController, :update_password
-
   end
 
   scope "/", BazarWeb do

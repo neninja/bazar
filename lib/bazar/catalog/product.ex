@@ -23,7 +23,17 @@ defmodule Bazar.Catalog.Product do
   @doc false
   def changeset(product, attrs, scope \\ nil) do
     product
-    |> cast(attrs, [:image_url, :ludopedia_link, :description, :sale_reason, :condition, :recommendation, :tags, :price, :trade_policy])
+    |> cast(attrs, [
+      :image_url,
+      :ludopedia_link,
+      :description,
+      :sale_reason,
+      :condition,
+      :recommendation,
+      :tags,
+      :price,
+      :trade_policy
+    ])
     |> maybe_put_user_id(scope)
     |> validate_required([:description, :price, :trade_policy])
     |> validate_subset(:tags, @available_tags)

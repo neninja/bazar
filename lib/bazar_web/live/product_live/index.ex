@@ -72,7 +72,8 @@ defmodule BazarWeb.ProductLive.Index do
   @impl true
   def handle_info({type, %Bazar.Catalog.Product{}}, socket)
       when type in [:created, :updated, :deleted] do
-    {:noreply, stream(socket, :products, list_products(socket.assigns.current_scope), reset: true)}
+    {:noreply,
+     stream(socket, :products, list_products(socket.assigns.current_scope), reset: true)}
   end
 
   defp list_products(current_scope) do

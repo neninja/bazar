@@ -9,7 +9,17 @@ defmodule Bazar.CatalogTest do
     import Bazar.AccountsFixtures, only: [user_scope_fixture: 0]
     import Bazar.CatalogFixtures
 
-    @invalid_attrs %{description: nil, image_url: nil, ludopedia_link: nil, sale_reason: nil, condition: nil, recommendation: nil, tags: nil, price: nil, trade_policy: nil}
+    @invalid_attrs %{
+      description: nil,
+      image_url: nil,
+      ludopedia_link: nil,
+      sale_reason: nil,
+      condition: nil,
+      recommendation: nil,
+      tags: nil,
+      price: nil,
+      trade_policy: nil
+    }
 
     test "list_products/1 returns all scoped products" do
       scope = user_scope_fixture()
@@ -29,7 +39,18 @@ defmodule Bazar.CatalogTest do
     end
 
     test "create_product/2 with valid data creates a product" do
-      valid_attrs = %{description: "some description", image_url: "some image_url", ludopedia_link: "some ludopedia_link", sale_reason: "some sale_reason", condition: "some condition", recommendation: "some recommendation", tags: ["option1", "option2"], price: "120.5", trade_policy: "some trade_policy"}
+      valid_attrs = %{
+        description: "some description",
+        image_url: "some image_url",
+        ludopedia_link: "some ludopedia_link",
+        sale_reason: "some sale_reason",
+        condition: "some condition",
+        recommendation: "some recommendation",
+        tags: ["Carteado"],
+        price: "120.5",
+        trade_policy: "Somente Venda"
+      }
+
       scope = user_scope_fixture()
 
       assert {:ok, %Product{} = product} = Catalog.create_product(scope, valid_attrs)
@@ -39,9 +60,9 @@ defmodule Bazar.CatalogTest do
       assert product.sale_reason == "some sale_reason"
       assert product.condition == "some condition"
       assert product.recommendation == "some recommendation"
-      assert product.tags == ["option1", "option2"]
+      assert product.tags == ["Carteado"]
       assert product.price == Decimal.new("120.5")
-      assert product.trade_policy == "some trade_policy"
+      assert product.trade_policy == "Somente Venda"
       assert product.user_id == scope.user.id
     end
 
@@ -53,7 +74,18 @@ defmodule Bazar.CatalogTest do
     test "update_product/3 with valid data updates the product" do
       scope = user_scope_fixture()
       product = product_fixture(scope)
-      update_attrs = %{description: "some updated description", image_url: "some updated image_url", ludopedia_link: "some updated ludopedia_link", sale_reason: "some updated sale_reason", condition: "some updated condition", recommendation: "some updated recommendation", tags: ["option1"], price: "456.7", trade_policy: "some updated trade_policy"}
+
+      update_attrs = %{
+        description: "some updated description",
+        image_url: "some updated image_url",
+        ludopedia_link: "some updated ludopedia_link",
+        sale_reason: "some updated sale_reason",
+        condition: "some updated condition",
+        recommendation: "some updated recommendation",
+        tags: ["Carteado"],
+        price: "456.7",
+        trade_policy: "Somente Venda"
+      }
 
       assert {:ok, %Product{} = product} = Catalog.update_product(scope, product, update_attrs)
       assert product.description == "some updated description"
@@ -62,9 +94,9 @@ defmodule Bazar.CatalogTest do
       assert product.sale_reason == "some updated sale_reason"
       assert product.condition == "some updated condition"
       assert product.recommendation == "some updated recommendation"
-      assert product.tags == ["option1"]
+      assert product.tags == ["Carteado"]
       assert product.price == Decimal.new("456.7")
-      assert product.trade_policy == "some updated trade_policy"
+      assert product.trade_policy == "Somente Venda"
     end
 
     test "update_product/3 with invalid scope raises" do
