@@ -8,6 +8,7 @@ Experiência de desenvolvimento (DX)
 
 ```shell
 mix setup
+mix seed
 ```
 
 ### Execução servidor

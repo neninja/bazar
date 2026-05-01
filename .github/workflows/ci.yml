@@ -9,13 +9,13 @@ on:
 permissions:
   contents: read
 
-jobs:
-  test:
-    name: Test and format
-    runs-on: ubuntu-latest
+env:
+  MIX_ENV: test
 
-    env:
-      MIX_ENV: test
+jobs:
+  format:
+    name: Format
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -27,14 +27,46 @@ jobs:
           otp-version: "26"
           elixir-version: "1.15"
 
-      - name: Cache Mix deps
+      - name: Restore Mix cache
         uses: actions/cache@v4
         with:
           path: |
             deps
             _build
-          key: ${{ runner.os }}-mix-${{ hashFiles('mix.lock') }}
+          key: ${{ runner.os }}-mix-format-${{ hashFiles('mix.lock') }}
           restore-keys: |
+            ${{ runner.os }}-mix-format-
+            ${{ runner.os }}-mix-
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Check formatting
+        run: mix format --check-formatted
+
+  deps:
+    name: Dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Erlang/OTP and Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: "26"
+          elixir-version: "1.15"
+
+      - name: Restore Mix cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-deps-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-deps-
             ${{ runner.os }}-mix-
 
       - name: Install dependencies
@@ -43,11 +75,64 @@ jobs:
       - name: Check unused dependencies
         run: mix deps.unlock --check-unused
 
-      - name: Check formatting
-        run: mix format --check-formatted
+  compile:
+    name: Compile
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Erlang/OTP and Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: "26"
+          elixir-version: "1.15"
+
+      - name: Restore Mix cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-compile-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-compile-
+            ${{ runner.os }}-mix-
+
+      - name: Install dependencies
+        run: mix deps.get
 
       - name: Compile with warnings as errors
         run: mix compile --warnings-as-errors
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Erlang/OTP and Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: "26"
+          elixir-version: "1.15"
+
+      - name: Restore Mix cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-test-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-test-
+            ${{ runner.os }}-mix-
+
+      - name: Install dependencies
+        run: mix deps.get
 
       - name: Run tests
         run: mix test
