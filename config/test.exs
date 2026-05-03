@@ -43,6 +43,7 @@ config :phoenix,
 
 config :phoenix_test,
   otp_app: :bazar,
+  endpoint: BazarWeb.Endpoint,
   playwright: [
     browser_pool: :chromium_pool,
     headless: true,
@@ -53,5 +54,6 @@ config :phoenix_test,
       [id: :firefox_pool, browser: :firefox]
     ],
     js_logger: false,
-    browser_launch_timeout: 10_000
+    browser_launch_timeout: 10_000,
+    timeout: 10_000
   ]

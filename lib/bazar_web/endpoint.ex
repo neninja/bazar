@@ -52,4 +52,7 @@ defmodule BazarWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug BazarWeb.Router
+
+  # Necessário paar testes e2e
+  def session_options, do: @session_options
 end
