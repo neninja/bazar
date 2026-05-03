@@ -18,7 +18,7 @@ config :bazar, Bazar.Repo,
 config :bazar, BazarWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "OHSPznsfJcMhzFfTXsu5YDGPJNHCNEOTaebjKuGdyyGwzW+T2RYiMW86CU2Endo5",
-  server: false
+  server: true
 
 # In test we don't send emails
 config :bazar, Bazar.Mailer, adapter: Swoosh.Adapters.Test
@@ -39,3 +39,18 @@ config :phoenix_live_view,
 # Sort query params output of verified routes for robust url comparisons
 config :phoenix,
   sort_verified_routes_query_params: true
+
+config :phoenix_test,
+  otp_app: :bazar,
+  playwright: [
+    browser_pool: :chromium_pool,
+    headless: true,
+    # slow_mo: :timer.seconds(1),
+    # screenshot: true,
+    browser_pools: [
+      [id: :chromium_pool, browser: :chromium],
+      [id: :firefox_pool, browser: :firefox]
+    ],
+    js_logger: false,
+    browser_launch_timeout: 10_000
+  ]

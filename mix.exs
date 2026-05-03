@@ -52,6 +52,9 @@ defmodule Bazar.MixProject do
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
+      {:phoenix_test_playwright, "~> 0.12", only: :test, runtime: false},
+      # needed for playwright
+      {:json, "~> 1.4", only: :test},
       {:heroicons,
        github: "tailwindlabs/heroicons",
        tag: "v2.2.0",
