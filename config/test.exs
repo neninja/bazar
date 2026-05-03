@@ -10,7 +10,8 @@ config :bcrypt_elixir, :log_rounds, 1
 # Run `mix help test` for more information.
 config :bazar, Bazar.Repo,
   database: Path.expand("../bazar_test.db", __DIR__),
-  pool_size: 5,
+  pool_size: 1,
+  busy_timeout: 10_000,
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
