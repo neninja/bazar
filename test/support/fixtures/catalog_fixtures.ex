@@ -10,7 +10,7 @@ defmodule Bazar.CatalogFixtures do
   def product_fixture(scope, attrs \\ %{}) do
     attrs =
       Enum.into(attrs, %{
-        condition: "some condition",
+        condition: "Seminovo",
         description: "some description",
         image_url: "some image_url",
         ludopedia_link: "some ludopedia_link",

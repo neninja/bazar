@@ -4,6 +4,7 @@ defmodule Bazar.Catalog.Product do
 
   @available_tags ["Estratégia", "Carteado", "Party Game", "Cooperativo", "Euro", "Ameritrash"]
   @trade_options ["Somente Venda", "Venda ou Troca"]
+  @conditions ["Seminovo", "Com marcas de uso", "Danificado"]
 
   schema "products" do
     field :image_url, :string
@@ -38,6 +39,7 @@ defmodule Bazar.Catalog.Product do
     |> validate_required([:description, :price, :trade_policy])
     |> validate_subset(:tags, @available_tags)
     |> validate_inclusion(:trade_policy, @trade_options)
+    |> validate_inclusion(:condition, @conditions)
   end
 
   defp maybe_put_user_id(changeset, nil), do: changeset
@@ -45,4 +47,5 @@ defmodule Bazar.Catalog.Product do
 
   def available_tags, do: @available_tags
   def trade_options, do: @trade_options
+  def conditions, do: @conditions
 end

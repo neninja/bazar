@@ -33,7 +33,7 @@ defmodule ProductCrudTest do
       |> fill_in("Ludopedia link", with: "http://ludopedia.com.br/jogo/exemplo")
       |> fill_in("Description", with: "Excelente jogo de estratégia para toda a família")
       |> fill_in("Sale reason", with: "Já jogamos bastante, hora de passar adiante")
-      |> fill_in("Condition", with: "Usado - ótimo estado")
+      |> select("Condition", option: "Seminovo", exact: false)
       |> fill_in("Recommendation", with: "Recomendo para 3 a 5 jogadores")
       |> select("Tags", option: "Estratégia", exact: false)
       |> fill_in("Price", with: "150")

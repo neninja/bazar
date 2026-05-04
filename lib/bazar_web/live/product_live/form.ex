@@ -18,7 +18,13 @@ defmodule BazarWeb.ProductLive.Form do
         <.input field={@form[:ludopedia_link]} type="text" label="Ludopedia link" />
         <.input field={@form[:description]} type="textarea" label="Description" />
         <.input field={@form[:sale_reason]} type="textarea" label="Sale reason" />
-        <.input field={@form[:condition]} type="text" label="Condition" />
+        <.input
+          field={@form[:condition]}
+          type="select"
+          prompt="Selecione a condição"
+          label="Condition"
+          options={Bazar.Catalog.Product.conditions()}
+        />
         <.input field={@form[:recommendation]} type="textarea" label="Recommendation" />
         <.input
           field={@form[:tags]}

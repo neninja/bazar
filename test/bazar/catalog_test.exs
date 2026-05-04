@@ -44,7 +44,7 @@ defmodule Bazar.CatalogTest do
         image_url: "some image_url",
         ludopedia_link: "some ludopedia_link",
         sale_reason: "some sale_reason",
-        condition: "some condition",
+        condition: "Seminovo",
         recommendation: "some recommendation",
         tags: ["Carteado"],
         price: "120.5",
@@ -58,7 +58,7 @@ defmodule Bazar.CatalogTest do
       assert product.image_url == "some image_url"
       assert product.ludopedia_link == "some ludopedia_link"
       assert product.sale_reason == "some sale_reason"
-      assert product.condition == "some condition"
+      assert product.condition == "Seminovo"
       assert product.recommendation == "some recommendation"
       assert product.tags == ["Carteado"]
       assert product.price == Decimal.new("120.5")
@@ -80,7 +80,7 @@ defmodule Bazar.CatalogTest do
         image_url: "some updated image_url",
         ludopedia_link: "some updated ludopedia_link",
         sale_reason: "some updated sale_reason",
-        condition: "some updated condition",
+        condition: "Danificado",
         recommendation: "some updated recommendation",
         tags: ["Carteado"],
         price: "456.7",
@@ -92,7 +92,7 @@ defmodule Bazar.CatalogTest do
       assert product.image_url == "some updated image_url"
       assert product.ludopedia_link == "some updated ludopedia_link"
       assert product.sale_reason == "some updated sale_reason"
-      assert product.condition == "some updated condition"
+      assert product.condition == "Danificado"
       assert product.recommendation == "some updated recommendation"
       assert product.tags == ["Carteado"]
       assert product.price == Decimal.new("456.7")
