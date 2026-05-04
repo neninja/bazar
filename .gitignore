@@ -42,7 +42,8 @@ npm-debug.log
 .idea
 
 #playwright
-screenshots
+/screenshots/
+/traces/
 
 # claude
 .claude/*.local.*
