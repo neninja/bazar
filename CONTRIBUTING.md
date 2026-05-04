@@ -4,18 +4,9 @@
 
 Experiência de desenvolvimento (DX)
 
-### Configuração inicial
+### Configuração e Execução
 
-```shell
-mix setup
-mix seed
-```
-
-### Execução servidor
-
-```shell
-mix phx.server
-```
+Igual ao disposto no [README](./README.md)
 
 ### Debug
 
@@ -35,7 +26,7 @@ mix precommit
 
 O projeto já está configurado para rodar servidor para testes automaticamente, portanto `mix test` e `mix precommit` rodam todos testes incluindo os E2E. Eles ficam na pasta `test/feature`.
 
-Debug de erro não é o forte dessa abordagem, mas se necessário utilize `@tag trace: :open` para abrir o chrome e entender o problema.
+Debug de erro não é o forte dessa abordagem, mas se necessário utilize `@tag trace: :open` no teste problemático para abrir o chrome e entender o problema.
 
 > - Teste é bom, code coverage é vaidade.
 > - Teste bom de verdade é o E2E, use Playwright e escreva o teste como se fosse um usuário de verdade abrindo o chrome e realizando os fluxos principais. Começa pelo mais crítico.

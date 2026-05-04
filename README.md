@@ -3,10 +3,25 @@
 - [Escopo](./PRD.md)
 - [Contribuição](./CONTRIBUTING.md)
 
-## Execução
+## Requisitos
+
+- *Elixir 1.18.1* e *Erlang/OTP 26*
+- *Node 24.1.0* e NPM *10.9.0*
+
+## Configuração
+
+- Baixe as dependências, build, migrations e seed
 
 ```shell
 mix setup
 ```
 
 > Sugestão de dados iniciais com `mix stock.setup` e resetar com `mix stock.reset`
+
+## Execução
+
+- Inicie o servidor
+
+```shell
+mix phx.server
+```
