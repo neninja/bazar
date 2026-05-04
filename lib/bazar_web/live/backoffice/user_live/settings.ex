@@ -1,4 +1,4 @@
-defmodule BazarWeb.UserLive.Settings do
+defmodule BazarWeb.Backoffice.UserLive.Settings do
   use BazarWeb, :live_view
 
   on_mount {BazarWeb.UserAuth, :require_sudo_mode}

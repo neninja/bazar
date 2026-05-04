@@ -1,4 +1,4 @@
-defmodule BazarWeb.UserLive.SettingsTest do
+defmodule BazarWeb.Backoffice.UserLive.SettingsTest do
   use BazarWeb.ConnCase
 
   alias Bazar.Accounts

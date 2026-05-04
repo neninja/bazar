@@ -1,4 +1,4 @@
-defmodule BazarWeb.ProductLive.Show do
+defmodule BazarWeb.Backoffice.ProductLive.Show do
   use BazarWeb, :live_view
 
   alias Bazar.Catalog

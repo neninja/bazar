@@ -1,4 +1,4 @@
-defmodule BazarWeb.UserLive.Login do
+defmodule BazarWeb.Backoffice.UserLive.Login do
   use BazarWeb, :live_view
 
   alias Bazar.Accounts

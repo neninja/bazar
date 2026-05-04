@@ -1,4 +1,4 @@
-defmodule BazarWeb.UserLive.LoginTest do
+defmodule BazarWeb.Backoffice.UserLive.LoginTest do
   use BazarWeb.ConnCase
 
   import Phoenix.LiveViewTest

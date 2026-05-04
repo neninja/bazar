@@ -1,4 +1,4 @@
-defmodule BazarWeb.UserLive.ConfirmationTest do
+defmodule BazarWeb.Backoffice.UserLive.ConfirmationTest do
   use BazarWeb.ConnCase
 
   import Phoenix.LiveViewTest

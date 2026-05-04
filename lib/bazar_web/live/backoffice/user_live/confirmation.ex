@@ -1,4 +1,4 @@
-defmodule BazarWeb.UserLive.Confirmation do
+defmodule BazarWeb.Backoffice.UserLive.Confirmation do
   use BazarWeb, :live_view
 
   alias Bazar.Accounts

@@ -1,4 +1,4 @@
-defmodule BazarWeb.ProductLiveTest do
+defmodule BazarWeb.Backoffice.ProductLiveTest do
   use BazarWeb.ConnCase
 
   import Phoenix.LiveViewTest
