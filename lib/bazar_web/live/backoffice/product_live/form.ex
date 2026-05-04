@@ -125,6 +125,6 @@ defmodule BazarWeb.Backoffice.ProductLive.Form do
     end
   end
 
-  defp return_path(_scope, "index", _product), do: ~p"/products"
-  defp return_path(_scope, "show", product), do: ~p"/products/#{product}"
+  defp return_path(_scope, "index", _product), do: ~p"/backoffice/products"
+  defp return_path(_scope, "show", product), do: ~p"/backoffice/products/#{product}"
 end

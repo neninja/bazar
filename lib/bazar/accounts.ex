@@ -251,7 +251,7 @@ defmodule Bazar.Accounts do
 
   ## Examples
 
-      iex> deliver_user_update_email_instructions(user, current_email, &url(~p"/users/settings/confirm-email/#{&1}"))
+      iex> deliver_user_update_email_instructions(user, current_email, &url(~p"/backoffice/users/settings/confirm-email/#{&1}"))
       {:ok, %{to: ..., body: ...}}
 
   """

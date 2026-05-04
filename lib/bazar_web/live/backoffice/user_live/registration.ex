@@ -14,7 +14,10 @@ defmodule BazarWeb.Backoffice.UserLive.Registration do
             Register for an account
             <:subtitle>
               Already registered?
-              <.link navigate={~p"/users/log-in"} class="font-semibold text-brand hover:underline">
+              <.link
+                navigate={~p"/backoffice/users/log-in"}
+                class="font-semibold text-brand hover:underline"
+              >
                 Log in
               </.link>
               to your account now.
@@ -64,7 +67,7 @@ defmodule BazarWeb.Backoffice.UserLive.Registration do
     #        {:ok, _} =
     #          Accounts.deliver_login_instructions(
     #            user,
-    #            &url(~p"/users/log-in/#{&1}")
+    #            &url(~p"/backoffice/users/log-in/#{&1}")
     #          )
     #
     #        {:noreply,
@@ -73,7 +76,7 @@ defmodule BazarWeb.Backoffice.UserLive.Registration do
     #           :info,
     #           "An email was sent to #{user.email}, please access it to confirm your account."
     #         )
-    #         |> push_navigate(to: ~p"/users/log-in")}
+    #         |> push_navigate(to: ~p"/backoffice/users/log-in")}
     #
     #      {:error, %Ecto.Changeset{} = changeset} ->
     #        {:noreply, assign_form(socket, changeset)}

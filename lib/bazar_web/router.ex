@@ -7,10 +7,19 @@ defmodule BazarWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, html: {BazarWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_scope_for_user
+  end
+
+  pipeline :admin_browser do
+    plug :browser
+    plug :put_root_layout, html: {BazarWeb.Layouts, :root}
+  end
+
+  pipeline :public_browser do
+    plug :browser
+    plug :put_root_layout, html: {BazarWeb.Layouts, :storefront_root}
   end
 
   pipeline :api do
@@ -18,9 +27,13 @@ defmodule BazarWeb.Router do
   end
 
   scope "/", BazarWeb do
-    pipe_through :browser
+    pipe_through :public_browser
 
-    get "/", PageController, :home
+    live_session :storefront,
+      on_mount: [{BazarWeb.UserAuth, :mount_current_scope}] do
+      live "/", Storefront.ProductLive.Index, :index
+      live "/products/:id", Storefront.ProductLive.Show, :show
+    end
   end
 
   # Other scopes may use custom stacks.
@@ -38,17 +51,15 @@ defmodule BazarWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/dev" do
-      pipe_through :browser
+      pipe_through :admin_browser
 
       live_dashboard "/dashboard", metrics: BazarWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
 
-  ## Authentication routes
-
-  scope "/", BazarWeb do
-    pipe_through [:browser, :require_authenticated_user]
+  scope "/backoffice", BazarWeb do
+    pipe_through [:admin_browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,
       on_mount: [{BazarWeb.UserAuth, :require_authenticated}] do
@@ -64,8 +75,8 @@ defmodule BazarWeb.Router do
     post "/users/update-password", UserSessionController, :update_password
   end
 
-  scope "/", BazarWeb do
-    pipe_through [:browser]
+  scope "/backoffice", BazarWeb do
+    pipe_through [:admin_browser]
 
     live_session :current_user,
       on_mount: [{BazarWeb.UserAuth, :mount_current_scope}] do

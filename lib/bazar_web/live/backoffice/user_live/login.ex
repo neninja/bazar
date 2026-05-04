@@ -33,7 +33,7 @@ defmodule BazarWeb.Backoffice.UserLive.Login do
           :let={f}
           for={@form}
           id="login_form_magic"
-          action={~p"/users/log-in"}
+          action={~p"/backoffice/users/log-in"}
           phx-submit="submit_magic"
         >
           <.input
@@ -57,7 +57,7 @@ defmodule BazarWeb.Backoffice.UserLive.Login do
           :let={f}
           for={@form}
           id="login_form_password"
-          action={~p"/users/log-in"}
+          action={~p"/backoffice/users/log-in"}
           phx-submit="submit_password"
           phx-trigger-action={@trigger_submit}
         >
@@ -109,7 +109,7 @@ defmodule BazarWeb.Backoffice.UserLive.Login do
     if user = Accounts.get_user_by_email(email) do
       Accounts.deliver_login_instructions(
         user,
-        &url(~p"/users/log-in/#{&1}")
+        &url(~p"/backoffice/users/log-in/#{&1}")
       )
     end
 
@@ -119,7 +119,7 @@ defmodule BazarWeb.Backoffice.UserLive.Login do
     {:noreply,
      socket
      |> put_flash(:info, info)
-     |> push_navigate(to: ~p"/users/log-in")}
+     |> push_navigate(to: ~p"/backoffice/users/log-in")}
   end
 
   defp local_mail_adapter? do

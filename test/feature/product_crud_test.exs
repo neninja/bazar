@@ -26,7 +26,7 @@ defmodule ProductCrudTest do
     test "cria um novo produto a partir da listagem", %{conn: conn, user: user} do
       conn
       |> log_in(user)
-      |> visit(~p"/products")
+      |> visit(~p"/backoffice/products")
       |> click_link("New Product")
       |> assert_has("h1", text: "New Product")
       |> fill_in("Image url", with: "http://exemplo.com/imagem.jpg")
@@ -52,7 +52,7 @@ defmodule ProductCrudTest do
     test "edita um produto a partir da listagem", %{conn: conn, user: user, product: product} do
       conn
       |> log_in(user)
-      |> visit(~p"/products")
+      |> visit(~p"/backoffice/products")
       |> assert_has("td", text: product.description)
       |> click_link("Edit")
       |> assert_has("h1", text: "Edit Product")
@@ -70,7 +70,7 @@ defmodule ProductCrudTest do
     } do
       conn
       |> log_in(user)
-      |> visit(~p"/products/#{product}")
+      |> visit(~p"/backoffice/products/#{product}")
       |> assert_has("h1", text: "Product")
       |> click_link("Edit product")
       |> assert_has("h1", text: "Edit Product")

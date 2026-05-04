@@ -10,7 +10,7 @@ defmodule BazarWeb.Backoffice.ProductLive.Index do
       <.header>
         Listing Products
         <:actions>
-          <.button variant="primary" navigate={~p"/products/new"}>
+          <.button variant="primary" navigate={~p"/backoffice/products/new"}>
             <.icon name="hero-plus" /> New Product
           </.button>
         </:actions>
@@ -19,7 +19,7 @@ defmodule BazarWeb.Backoffice.ProductLive.Index do
       <.table
         id="products"
         rows={@streams.products}
-        row_click={fn {_id, product} -> JS.navigate(~p"/products/#{product}") end}
+        row_click={fn {_id, product} -> JS.navigate(~p"/backoffice/products/#{product}") end}
       >
         <:col :let={{_id, product}} label="Image url">{product.image_url}</:col>
         <:col :let={{_id, product}} label="Ludopedia link">{product.ludopedia_link}</:col>
@@ -32,9 +32,9 @@ defmodule BazarWeb.Backoffice.ProductLive.Index do
         <:col :let={{_id, product}} label="Trade policy">{product.trade_policy}</:col>
         <:action :let={{_id, product}}>
           <div class="sr-only">
-            <.link navigate={~p"/products/#{product}"}>Show</.link>
+            <.link navigate={~p"/backoffice/products/#{product}"}>Show</.link>
           </div>
-          <.link navigate={~p"/products/#{product}/edit"}>Edit</.link>
+          <.link navigate={~p"/backoffice/products/#{product}/edit"}>Edit</.link>
         </:action>
         <:action :let={{id, product}}>
           <.link

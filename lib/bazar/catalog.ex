@@ -144,4 +144,12 @@ defmodule Bazar.Catalog do
 
     Product.changeset(product, attrs, scope)
   end
+
+  def list_all_products do
+    Repo.all(Product)
+  end
+
+  def get_store_product(id) do
+    Repo.get(Product, id)
+  end
 end

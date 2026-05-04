@@ -11,10 +11,13 @@ defmodule BazarWeb.Backoffice.ProductLive.Show do
         Product {@product.id}
         <:subtitle>This is a product record from your database.</:subtitle>
         <:actions>
-          <.button navigate={~p"/products"}>
+          <.button navigate={~p"/backoffice/products"}>
             <.icon name="hero-arrow-left" />
           </.button>
-          <.button variant="primary" navigate={~p"/products/#{@product}/edit?return_to=show"}>
+          <.button
+            variant="primary"
+            navigate={~p"/backoffice/products/#{@product}/edit?return_to=show"}
+          >
             <.icon name="hero-pencil-square" /> Edit product
           </.button>
         </:actions>
@@ -62,7 +65,7 @@ defmodule BazarWeb.Backoffice.ProductLive.Show do
     {:noreply,
      socket
      |> put_flash(:error, "The current product was deleted.")
-     |> push_navigate(to: ~p"/products")}
+     |> push_navigate(to: ~p"/backoffice/products")}
   end
 
   def handle_info({type, %Bazar.Catalog.Product{}}, socket)
