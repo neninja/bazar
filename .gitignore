@@ -43,3 +43,6 @@ npm-debug.log
 
 #playwright
 screenshots
+
+# claude
+.claude/*.local.*
