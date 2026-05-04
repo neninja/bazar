@@ -1,4 +1,4 @@
-# PRD — Bazar: Vitrine Digital Presencial
+# PRD Bazar: Vitrine Digital Presencial
 
 ## Visão Geral
 
@@ -8,13 +8,13 @@ O Bazar é uma vitrine digital para eventos presenciais de jogos de tabuleiro. C
 
 ## Contexto e Problema
 
-Em feiras e encontros de jogos de tabuleiro, compradores e vendedores negociam presencialmente. A dificuldade é que o comprador precisa conhecer os produtos, porém pode se sentir envergonhado de perguntar diretamente ao vendedor. O Bazar resolve isso: o vendedor cadastra seus produtos e disponibiliza uma URL, e os compradores consultam tudo pelo celular — sem precisar criar conta ou fazer login.
+Em feiras e encontros de jogos de tabuleiro, compradores e vendedores negociam presencialmente. A dificuldade é que o comprador precisa conhecer os produtos, porém pode se sentir envergonhado de perguntar diretamente ao vendedor. O Bazar resolve isso: o vendedor cadastra seus produtos e disponibiliza uma URL, e os compradores consultam tudo pelo celular (sem precisar criar conta ou fazer login).
 
 ---
 
 ## Usuário-Alvo
 
-**Visitante anônimo** — pessoa presente no evento com smartphone. Não tem conta, não se identifica, não faz nada além de visualizar. A sessão é descartável.
+**Visitante anônimo**: pessoa presente no evento com smartphone. Não tem conta, não se identifica, não faz nada além de visualizar. A sessão é descartável.
 
 ---
 
@@ -111,7 +111,7 @@ Produto (/products/:id) ────── botão voltar ───────�
 
 **Requisitos técnicos:**
 - Implementado via Phoenix LiveView PubSub + Presence
-- Nenhum dado pessoal armazenado — apenas contagem agregada
+- Nenhum dado pessoal armazenado: apenas contagem agregada
 - Granularidade: loja inteira E por produto
 - A presença expira automaticamente quando a conexão WebSocket cai (usuário fecha app, perde sinal)
 
@@ -188,8 +188,8 @@ Produto (/products/:id) ────── botão voltar ───────�
 
 ## Stack Técnica Relevante
 
-- **Phoenix LiveView** — UI reativa sem JS customizado
-- **Phoenix Presence** — rastreamento anônimo de usuários conectados por tópico
-- **PubSub** — broadcast de atualizações de presença
-- **SQLite** (dev) — dados dos produtos
-- **Tailwind CSS v4** — estilização mobile-first
+- **Phoenix LiveView**: UI reativa sem JS customizado
+- **Phoenix Presence**: rastreamento anônimo de usuários conectados por tópico
+- **PubSub**: broadcast de atualizações de presença
+- **SQLite** (dev): dados dos produtos
+- **Tailwind CSS v4**: estilização mobile-first

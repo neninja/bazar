@@ -81,10 +81,12 @@ defmodule Bazar.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
       seed: ["run priv/repo/seeds.exs"],
-      "ecto.setup": ["ecto.create", "ecto.migrate"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "seed"],
+      setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
+      "stock.setup": ["run priv/repo/available_stock.exs"],
+      "stock.reset": ["ecto.reset", "stock.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["compile", "tailwind bazar", "esbuild bazar"],
