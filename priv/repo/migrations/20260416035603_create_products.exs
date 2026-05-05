@@ -12,6 +12,7 @@ defmodule Bazar.Repo.Migrations.CreateProducts do
       add :tags, {:array, :string}
       add :price, :decimal
       add :trade_policy, :string
+      add :is_available, :boolean, default: true, null: false
       add :user_id, references(:users, type: :id, on_delete: :delete_all)
 
       timestamps(type: :utc_datetime)

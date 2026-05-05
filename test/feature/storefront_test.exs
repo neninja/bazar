@@ -49,6 +49,14 @@ defmodule StorefrontTest do
       |> assert_has("span", text: "Carteado")
     end
 
+    test "não exibe produtos indisponíveis", %{conn: conn, scope: scope} do
+      product_fixture(scope, %{description: "Produto Já Vendido", is_available: false})
+
+      conn
+      |> visit(~p"/")
+      |> refute_has("p", text: "Produto Já Vendido")
+    end
+
     test "exibe contagem de visitantes presentes na loja", %{conn: conn} do
       track_extra_viewer("storefront:lobby")
 

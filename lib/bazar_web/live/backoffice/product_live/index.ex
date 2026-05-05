@@ -30,6 +30,16 @@ defmodule BazarWeb.Backoffice.ProductLive.Index do
         <:col :let={{_id, product}} label="Tags">{product.tags}</:col>
         <:col :let={{_id, product}} label="Price">{product.price}</:col>
         <:col :let={{_id, product}} label="Trade policy">{product.trade_policy}</:col>
+        <:col :let={{_id, product}} label="Disponível">
+          <input
+            type="checkbox"
+            class="toggle toggle-success toggle-sm"
+            data-testid="toggle-availability"
+            data-available={to_string(product.is_available)}
+            checked={product.is_available}
+            phx-click={JS.push("toggle_availability", value: %{id: product.id})}
+          />
+        </:col>
         <:action :let={{_id, product}}>
           <div class="sr-only">
             <.link navigate={~p"/backoffice/products/#{product}"}>Show</.link>
@@ -59,6 +69,14 @@ defmodule BazarWeb.Backoffice.ProductLive.Index do
      socket
      |> assign(:page_title, "Listing Products")
      |> stream(:products, list_products(socket.assigns.current_scope))}
+  end
+
+  @impl true
+  def handle_event("toggle_availability", %{"id" => id}, socket) do
+    product = Catalog.get_product!(socket.assigns.current_scope, id)
+    {:ok, _} = Catalog.toggle_availability(socket.assigns.current_scope, product)
+
+    {:noreply, socket}
   end
 
   @impl true

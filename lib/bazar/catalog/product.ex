@@ -16,6 +16,7 @@ defmodule Bazar.Catalog.Product do
     field :tags, {:array, :string}
     field :price, :decimal
     field :trade_policy, :string
+    field :is_available, :boolean, default: true
     field :user_id, :id
 
     timestamps(type: :utc_datetime)
@@ -33,7 +34,8 @@ defmodule Bazar.Catalog.Product do
       :recommendation,
       :tags,
       :price,
-      :trade_policy
+      :trade_policy,
+      :is_available
     ])
     |> maybe_put_user_id(scope)
     |> validate_required([:description, :price, :trade_policy])

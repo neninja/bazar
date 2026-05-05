@@ -18,6 +18,7 @@ defmodule Bazar.CatalogFixtures do
         recommendation: "some recommendation",
         sale_reason: "some sale_reason",
         tags: ["Estratégia", "Carteado"],
+        is_available: true,
         trade_policy: "Somente Venda"
       })
 

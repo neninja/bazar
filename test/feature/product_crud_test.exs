@@ -79,5 +79,32 @@ defmodule ProductCrudTest do
       |> click_button("Save Product")
       |> assert_has("[role=alert]", text: "Product updated successfully")
     end
+
+    test "alterna disponibilidade do produto via toggle na listagem", %{
+      conn: conn,
+      user: user,
+      product: _product
+    } do
+      conn
+      |> log_in(user)
+      |> visit(~p"/backoffice/products")
+      |> assert_has("[data-testid='toggle-availability'][data-available='true']")
+      |> click("[data-testid='toggle-availability']")
+      |> assert_has("[data-testid='toggle-availability'][data-available='false']")
+    end
+
+    test "produto indisponível não aparece no storefront", %{
+      conn: conn,
+      user: user,
+      product: product
+    } do
+      conn
+      |> log_in(user)
+      |> visit(~p"/backoffice/products")
+      |> click("[data-testid='toggle-availability']")
+      |> assert_has("[data-testid='toggle-availability'][data-available='false']")
+      |> visit(~p"/")
+      |> refute_has("p", text: product.description)
+    end
   end
 end

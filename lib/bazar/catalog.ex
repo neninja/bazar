@@ -146,7 +146,20 @@ defmodule Bazar.Catalog do
   end
 
   def list_all_products do
-    Repo.all(Product)
+    from(p in Product, where: p.is_available == true)
+    |> Repo.all()
+  end
+
+  def toggle_availability(%Scope{} = scope, %Product{} = product) do
+    true = product.user_id == scope.user.id
+
+    with {:ok, product} <-
+           product
+           |> Ecto.Changeset.change(is_available: !product.is_available)
+           |> Repo.update() do
+      broadcast_product(scope, {:updated, product})
+      {:ok, product}
+    end
   end
 
   def get_store_product(id) do
