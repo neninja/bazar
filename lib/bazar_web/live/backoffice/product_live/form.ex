@@ -8,44 +8,84 @@ defmodule BazarWeb.Backoffice.ProductLive.Form do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash} current_scope={@current_scope}>
-      <.header>
-        {@page_title}
-        <:subtitle>Use this form to manage product records in your database.</:subtitle>
-      </.header>
+      <section class="space-y-5">
+        <div>
+          <p class="text-sm font-medium text-primary">Backoffice</p>
+          <h1 class="text-2xl font-bold tracking-tight text-base-content">{@page_title}</h1>
+          <p class="mt-1 text-sm leading-6 text-base-content/70">
+            Use este formulário para manter as informações comerciais do produto.
+          </p>
+        </div>
 
-      <.form for={@form} id="product-form" phx-change="validate" phx-submit="save">
-        <.input field={@form[:image_url]} type="text" label="Image url" />
-        <.input field={@form[:ludopedia_link]} type="text" label="Ludopedia link" />
-        <.input field={@form[:description]} type="textarea" label="Description" />
-        <.input field={@form[:sale_reason]} type="textarea" label="Sale reason" />
-        <.input
-          field={@form[:condition]}
-          type="select"
-          prompt="Selecione a condição"
-          label="Condition"
-          options={Bazar.Catalog.Product.conditions()}
-        />
-        <.input field={@form[:recommendation]} type="textarea" label="Recommendation" />
-        <.input
-          field={@form[:tags]}
-          type="select"
-          multiple
-          label="Tags"
-          options={Bazar.Catalog.Product.available_tags()}
-        />
-        <.input field={@form[:price]} type="number" label="Price" step="any" />
-        <.input
-          field={@form[:trade_policy]}
-          type="select"
-          prompt="Selecione uma opção"
-          label="Negociação"
-          options={Bazar.Catalog.Product.trade_options()}
-        />
-        <footer>
-          <.button phx-disable-with="Saving..." variant="primary">Save Product</.button>
-          <.button navigate={return_path(@current_scope, @return_to, @product)}>Cancel</.button>
-        </footer>
-      </.form>
+        <.form
+          for={@form}
+          id="product-form"
+          phx-change="validate"
+          phx-submit="save"
+          class="space-y-5 rounded-lg border border-base-300 bg-base-100 p-4 shadow-sm sm:p-5"
+        >
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="sm:col-span-2">
+              <.input field={@form[:image_url]} type="text" label="Image url" />
+            </div>
+            <div class="sm:col-span-2">
+              <.input field={@form[:ludopedia_link]} type="text" label="Ludopedia link" />
+            </div>
+            <div class="sm:col-span-2">
+              <.input field={@form[:description]} type="textarea" label="Description" rows="5" />
+            </div>
+            <div class="sm:col-span-2">
+              <.input field={@form[:sale_reason]} type="textarea" label="Sale reason" rows="4" />
+            </div>
+            <.input
+              field={@form[:condition]}
+              type="select"
+              prompt="Selecione a condição"
+              label="Condition"
+              options={Bazar.Catalog.Product.conditions()}
+            />
+            <.input field={@form[:price]} type="number" label="Price" step="any" />
+            <div class="sm:col-span-2">
+              <.input
+                field={@form[:recommendation]}
+                type="textarea"
+                label="Recommendation"
+                rows="4"
+              />
+            </div>
+            <.input
+              field={@form[:tags]}
+              type="select"
+              multiple
+              label="Tags"
+              options={Bazar.Catalog.Product.available_tags()}
+            />
+            <.input
+              field={@form[:trade_policy]}
+              type="select"
+              prompt="Selecione uma opção"
+              label="Negociação"
+              options={Bazar.Catalog.Product.trade_options()}
+            />
+          </div>
+
+          <footer class="grid gap-2 border-t border-base-200 pt-5 sm:flex sm:justify-end">
+            <.button
+              navigate={return_path(@current_scope, @return_to, @product)}
+              class="btn btn-primary btn-soft order-2 w-full sm:order-1 sm:w-auto"
+            >
+              Cancel
+            </.button>
+            <.button
+              phx-disable-with="Saving..."
+              variant="primary"
+              class="btn btn-primary order-1 w-full gap-2 transition hover:-translate-y-0.5 sm:order-2 sm:w-auto"
+            >
+              <.icon name="hero-check" class="size-4" /> Save Product
+            </.button>
+          </footer>
+        </.form>
+      </section>
     </Layouts.app>
     """
   end
