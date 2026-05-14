@@ -2,66 +2,40 @@
 
 ## Visão Geral
 
-O Bazar é uma vitrine digital para eventos presenciais de jogos de tabuleiro. Clientes físicos presentes no evento acessam a loja via celular para visualizar produtos disponíveis para venda ou troca, sem qualquer fluxo de checkout ou cadastro.
+O Bazar é uma vitrine digital para eventos presenciais de jogos de tabuleiro. Clientes físicos presentes no evento acessam a loja via celular para visualizar produtos disponíveis para venda ou troca, sem qualquer fluxo de checkout ou cadastro. Não é um marketplace, todos os produtos são da mesma conta.
+
+Não possui cadastro, a unica conta é administrativa para acesso ao backoffice e poder cadastrar, atualizar produtos ofertados e aceitar ou recusar propostas.
 
 ---
 
 ## Contexto e Problema
 
-Em feiras e encontros de jogos de tabuleiro, compradores e vendedores negociam presencialmente. A dificuldade é que o comprador precisa conhecer os produtos, porém pode se sentir envergonhado de perguntar diretamente ao vendedor. O Bazar resolve isso: o vendedor cadastra seus produtos e disponibiliza uma URL, e os compradores consultam tudo pelo celular (sem precisar criar conta ou fazer login).
+Em feiras e encontros de jogos de tabuleiro, compradores e vendedores negociam presencialmente. A dificuldade é que o comprador precisa conhecer os produtos, porém pode se sentir envergonhado de perguntar diretamente ao vendedor caso tenha alguma dúvida. O Bazar resolve isso: os produtos estão disponiveis online e os compradores consultam tudo pelo celular (sem precisar criar conta ou fazer login) e ainda podem fazer propostas anonimas.
 
 ---
 
 ## Usuário-Alvo
 
-**Visitante anônimo**: pessoa presente no evento com smartphone. Não tem conta, não se identifica, não faz nada além de visualizar. A sessão é descartável.
+Visitante anônimo: pessoa presente no evento com smartphone. Não tem conta, não se identifica. Pode visualizar todos produtos e fazer propostas em produtos individualmente, cujo podem ser aprovadas ou recusadas.
 
 ---
 
 ## Jornada do Usuário
 
-```
-[Espaço físico]
-      │
-      ▼
-URL da loja
-      │
-      ▼
-Vitrine (/) ◄───────────────────────────────────────┐
-  - Lista de produtos                               │
-  - Contador: "X pessoas na loja agora"             │
-  - Cards: imagem + preço + descrição curta         │
-  - Botão "Ver mais" por produto                    │
-      │                                             │
-      ▼                                             │
-Produto (/products/:id) ────── botão voltar ────────┘
-  - Imagem em destaque
-  - Preço
-  - Descrição completa
-  - Condição do jogo
-  - Tags (Estratégia, Cooperativo, etc.)
-  - Política de troca (Venda ou Venda/Troca)
-  - Link Ludopedia (se houver)
-  - Motivo da venda / Recomendação (se houver)
-  - Contador: "X pessoas vendo este produto agora"
-```
-
 1. O visitante acessa a URL da loja.
 2. Ele vê a listagem de produtos disponíveis e quantas pessoas estão na loja naquele momento.
 3. Ao entrar em um produto, vê os detalhes e quantas pessoas estão visualizando aquele produto agora.
-4. Não há botão de login, carrinho, favoritos ou qualquer ação além de navegar.
+4. Conhecendo o produto, decide se compra presencialmente ou faz proposta e aguarda aceita
+5. Em momento algum exige login ou identificação
 
 ---
 
 ## Princípios de Design
 
-| Princípio | Decisão |
-|---|---|
-| Mobile-first | Layout projetado para telas pequenas. Desktop é secundário. |
-| Zero fricção | Nenhum cadastro, login ou cookie de identificação. |
-| Tempo real | Contadores de presença atualizados via Phoenix LiveView (sem polling). |
-| Foco no produto | A UI deve deixar imagem e preço em destaque — são as primeiras decisões do comprador. |
-| Velocidade | Carregamento rápido mesmo em redes móveis congestionadas de evento. |
+- Mobile-first: Layout projetado para telas pequenas. Desktop é secundário.
+- Zero fricção: Nenhum cadastro para usuário final, login ou cookie de identificação.
+- Tempo real: Contadores de presença atualizados via Phoenix LiveView (sem polling).
+- Velocidade: Carregamento rápido mesmo em redes móveis congestionadas de evento.
 
 ---
 
@@ -70,13 +44,7 @@ Produto (/products/:id) ────── botão voltar ───────�
 ### 1. Listagem de Produtos (`/`)
 
 - Contador de usuários ativos na loja agora ("X pessoas aqui agora")
-- Grade de cards de produto (scroll vertical, 1 coluna em mobile) com o seguinte layout:
-  - Imagem do produto (destaque visual, ocupa a maior parte do card)
-  - Nome / Descrição curta (primeiras ~80 chars)
-  - Preço (destaque)
-  - Tags (ex: "Estratégia", "Cooperativo")
-  - Política de troca (ex: "Venda ou Troca")
-  - Botão / área clicável "Ver mais"
+- Grade de cards de produto (scroll vertical, 2 colunas em mobile)
 
 #### Comportamento
 
@@ -88,16 +56,7 @@ Produto (/products/:id) ────── botão voltar ───────�
 
 ### 2. Página de Produto (`/products/:id`)
 
-- Imagem do produto (tamanho grande, mobile-first)
-- Contador de usuários vendo este produto agora ("X pessoas vendo também")
-- Preço em destaque
-- Descrição completa
-- Condição do produto
-- Motivo da venda
-- Recomendação do vendedor
-- Tags
-- Política (Somente Venda / Venda ou Troca)
-- Link Ludopedia (referência externa, abre em nova aba)
+- Dados úteis parra tomada de decisão da compra do produto
 
 #### Comportamento
 
@@ -107,81 +66,54 @@ Produto (/products/:id) ────── botão voltar ───────�
 
 ---
 
-### 3. Presença em Tempo Real
+### 3. Visitante faz proposta em um produto (`/products/:id`)
 
-**Requisitos técnicos:**
-- Implementado via Phoenix LiveView PubSub + Presence
-- Nenhum dado pessoal armazenado: apenas contagem agregada
-- Granularidade: loja inteira E por produto
-- A presença expira automaticamente quando a conexão WebSocket cai (usuário fecha app, perde sinal)
+- Visitante tem ciência através de texto na tela que propostas aceitas não garantem reserva do produto
+- Visitante clica em textarea para fazer proposta e clica no botão de envio
 
-**O que NÃO é armazenado:**
-- IP, device ID, cookies de rastreamento
-- Histórico de navegação
-- Qualquer identificador persistente
+#### Comportamento
 
----
+- Quando a situação da proposta mudar para aceita ou recusada fica perceptivel visualmente
+- Visitante pode possuir somente uma proposta
+- Para evitar ataques e flood, estrutura de propostas possui estrategias como throttle
 
-## Telas e Layout (Mobile-First)
+### 4. Visitante edita proposta em um produto (`/products/:id`)
 
-### Listagem
+- Visitante clica em textarea, altera ou não e clica no botão de envio
 
-```
-┌─────────────────────────┐
-│  Bazar                  │
-│  12 pessoas aqui agora  │
-├─────────────────────────┤
-│ ┌─────────────────────┐ │
-│ │  [  IMAGEM  ]       │ │
-│ │  Catan              │ │
-│ │  R$ 150,00          │ │
-│ │  Estratégia  Euro   │ │
-│ │  Venda ou Troca     │ │
-│ │           [Ver mais]│ │
-│ └─────────────────────┘ │
-│ ┌─────────────────────┐ │
-│ │  [  IMAGEM  ]       │ │
-│ │  ...                │ │
-│ └─────────────────────┘ │
-└─────────────────────────┘
-```
+#### Comportamento
 
-### Detalhe do Produto
+- Proposta remove sua situação de aceita ou recusada caso tivesse e fica perceptivel visualmente
+- No backoffice fica visível como uma nova proposta, apagando a anterior. Permitindo usuário administrador aceitar ou recusar a nova proposta
 
-```
-┌─────────────────────────┐
-│  <- Voltar              │
-├─────────────────────────┤
-│                         │
-│   [    IMAGEM GRANDE  ] │
-│                         │
-│  3 pessoas vendo tsmbém │
-│                         │
-│  R$ 150,00              │
-│  Venda ou Troca         │
-│                         │
-│  Descrição completa...  │
-│                         │
-│  Condição: Muito bom    │
-│  Motivo: Jogamos pouco  │
-│                         │
-│  Estratégia  Euro       │
-│                         │
-│  [Ver no Ludopedia]     │
-└─────────────────────────┘
-```
+### 5. Usuário administra produtos (`/backoffice/products/:id` e `/backoffice/products/:id`)
+
+- Usuário administrador consegue ver todos os produtos, criar e atualizar seus dados e disponibilidade
+
+#### Comportamento
+
+- Toda alteração reflete reativamente todos clientes conectados
+
+### 6. Usuário vê e aceita ou recusa propostas (`/backoffice/offers`)
+
+- Usuário administrador lista ofertas facilmente relacionadas a produtos
+- A listagem está ordenada por status: pendentes, aceitas e recusadas
+- Usuário administrador aceita ou recusa propostas
+- Somente usuário administrador tem capacidade de ver todas popostas, cada visitante vê somente a sua atual
+
+#### Comportamento
+
+- As propostas com sua nova situação refletem automaticamente para quem emitiu
 
 ---
 
-## O que está FORA do escopo (versão inicial)
+## O que está fora do escopo (versão inicial)
 
 - Checkout, carrinho ou pagamento
 - Cadastro, identificação ou login de visitantes
 - Busca e filtros de produtos
 - Favoritos ou lista de desejos
 - Notificações
-- Chat, contato ou negociação com vendedor
-- Histórico de visualizações
 - Múltiplos vendedores / marketplace
 
 ---
@@ -191,5 +123,5 @@ Produto (/products/:id) ────── botão voltar ───────�
 - **Phoenix LiveView**: UI reativa sem JS customizado
 - **Phoenix Presence**: rastreamento anônimo de usuários conectados por tópico
 - **PubSub**: broadcast de atualizações de presença
-- **SQLite** (dev): dados dos produtos
+- **SQLite**: dados dos produtos
 - **Tailwind CSS v4**: estilização mobile-first
