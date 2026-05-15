@@ -7,6 +7,7 @@ defmodule BazarWeb.Storefront.ProductOfferLiveTest do
   import Bazar.CatalogFixtures
 
   alias Bazar.Accounts.Scope
+  alias Bazar.Catalog
   alias Bazar.Offers
   alias Bazar.Offers.Offer
   alias Bazar.Repo
@@ -45,5 +46,32 @@ defmodule BazarWeb.Storefront.ProductOfferLiveTest do
     assert {:ok, _offer} = Offers.update_offer_status(scope, offer.id, "accepted")
 
     assert has_element?(view, "#product-offer-panel", "Aceita")
+  end
+
+  test "open storefront list removes a product when it becomes unavailable", %{
+    conn: conn,
+    scope: scope,
+    product: product
+  } do
+    {:ok, view, _html} = live(conn, ~p"/")
+
+    assert has_element?(view, "#storefront-products", product.title)
+
+    assert {:ok, _product} = Catalog.update_product(scope, product, %{is_available: false})
+
+    refute has_element?(view, "#storefront-products", product.title)
+  end
+
+  test "open product page redirects when the product becomes unavailable", %{
+    conn: conn,
+    scope: scope,
+    product: product
+  } do
+    {:ok, view, _html} = live(conn, ~p"/products/#{product.id}")
+
+    assert {:ok, _product} = Catalog.update_product(scope, product, %{is_available: false})
+
+    message = "O produto #{product.title} foi vendido."
+    assert %{"info" => ^message} = assert_redirect(view, ~p"/")
   end
 end

@@ -9,6 +9,8 @@ defmodule Bazar.Catalog do
   alias Bazar.Catalog.Product
   alias Bazar.Accounts.Scope
 
+  @public_products_topic "storefront:products"
+
   @doc """
   Subscribes to scoped notifications about any product changes.
 
@@ -25,10 +27,15 @@ defmodule Bazar.Catalog do
     Phoenix.PubSub.subscribe(Bazar.PubSub, "user:#{key}:products")
   end
 
+  def subscribe_storefront_products do
+    Phoenix.PubSub.subscribe(Bazar.PubSub, @public_products_topic)
+  end
+
   defp broadcast_product(%Scope{} = scope, message) do
     key = scope.user.id
 
     Phoenix.PubSub.broadcast(Bazar.PubSub, "user:#{key}:products", message)
+    Phoenix.PubSub.broadcast(Bazar.PubSub, @public_products_topic, message)
   end
 
   @doc """

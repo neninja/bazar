@@ -7,6 +7,7 @@ defmodule StorefrontTest do
   import Bazar.CatalogFixtures
 
   alias Bazar.Accounts.Scope
+  alias Bazar.Catalog
   alias Bazar.Offers
   alias Bazar.Offers.Offer
   alias Bazar.Repo
@@ -72,6 +73,23 @@ defmodule StorefrontTest do
       conn
       |> visit(~p"/")
       |> assert_has("span", text: "2 passeando na loja")
+    end
+
+    test "notifica visitante na listagem quando produto é vendido", %{
+      conn: conn,
+      scope: scope,
+      products: [product | _]
+    } do
+      session =
+        conn
+        |> visit(~p"/")
+        |> assert_has("#storefront-products", text: product.title)
+
+      {:ok, _product} = Catalog.update_product(scope, product, %{is_available: false})
+
+      session
+      |> assert_has("[role=alert]", text: "O produto #{product.title} foi vendido.")
+      |> refute_has("#storefront-products", text: product.title)
     end
   end
 

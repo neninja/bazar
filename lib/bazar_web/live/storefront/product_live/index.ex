@@ -66,6 +66,7 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
     if connected?(socket) do
       {:ok, _} = Presence.track(self(), @lobby_topic, socket.id, %{})
       BazarWeb.Endpoint.subscribe(@lobby_topic)
+      Catalog.subscribe_storefront_products()
       Offers.subscribe_visitor_offers(socket.assigns.anonymous_session_id)
     end
 
@@ -87,6 +88,26 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
 
   def handle_info({:offer_saved, %Offer{}}, socket), do: {:noreply, socket}
 
+  def handle_info({:updated, %Bazar.Catalog.Product{is_available: false} = product}, socket) do
+    {:noreply,
+     socket
+     |> put_flash(:info, sold_product_message(product))
+     |> assign(:flash_action, nil)
+     |> stream(:products, Catalog.list_all_products(), reset: true)}
+  end
+
+  def handle_info({:deleted, %Bazar.Catalog.Product{} = product}, socket) do
+    {:noreply,
+     socket
+     |> put_flash(:info, sold_product_message(product))
+     |> assign(:flash_action, nil)
+     |> stream(:products, Catalog.list_all_products(), reset: true)}
+  end
+
+  def handle_info({_type, %Bazar.Catalog.Product{}}, socket) do
+    {:noreply, stream(socket, :products, Catalog.list_all_products(), reset: true)}
+  end
+
   def handle_info({:offer_updated, %Offer{} = offer}, socket) do
     {:noreply,
      socket
@@ -107,6 +128,8 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
 
   defp product_name(%Offer{} = offer),
     do: offer.product.title || "Produto #{offer.product_id}"
+
+  defp sold_product_message(product), do: "O produto #{product.title} foi vendido."
 
   defp offer_flash_action(%Offer{} = offer) do
     %{to: ~p"/products/#{offer.product_id}", label: "Ver produto"}

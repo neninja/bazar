@@ -168,6 +168,7 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
       {:ok, _} = Presence.track(self(), product_topic, socket.id, %{})
       BazarWeb.Endpoint.subscribe(@lobby_topic)
       BazarWeb.Endpoint.subscribe(product_topic)
+      Catalog.subscribe_storefront_products()
       Offers.subscribe_visitor_offers(socket.assigns.anonymous_session_id)
     end
 
@@ -177,6 +178,9 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
          socket
          |> put_flash(:error, "Produto não encontrado.")
          |> push_navigate(to: ~p"/")}
+
+      %Bazar.Catalog.Product{is_available: false} = product ->
+        {:noreply, redirect_unavailable_product(socket, product)}
 
       product ->
         offer = Offers.get_offer_for_session(product.id, socket.assigns.anonymous_session_id)
@@ -249,6 +253,22 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
      |> assign(:offer_form, to_offer_form(offer))}
   end
 
+  def handle_info({:updated, %Bazar.Catalog.Product{id: id} = product}, socket)
+      when id == socket.assigns.product.id do
+    if product.is_available do
+      {:noreply, assign(socket, :product, product)}
+    else
+      {:noreply, redirect_unavailable_product(socket, product)}
+    end
+  end
+
+  def handle_info({:deleted, %Bazar.Catalog.Product{id: id} = product}, socket)
+      when id == socket.assigns.product.id do
+    {:noreply, redirect_unavailable_product(socket, product)}
+  end
+
+  def handle_info({_type, %Bazar.Catalog.Product{}}, socket), do: {:noreply, socket}
+
   def handle_info(%Phoenix.Socket.Broadcast{event: "presence_diff"}, socket) do
     case socket.assigns.product_id do
       nil ->
@@ -289,6 +309,12 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
 
   defp product_name(%Offer{} = offer),
     do: offer.product.title || "Produto #{offer.product_id}"
+
+  defp redirect_unavailable_product(socket, product) do
+    socket
+    |> put_flash(:info, "O produto #{product.title} foi vendido.")
+    |> push_navigate(to: ~p"/")
+  end
 
   defp offer_flash_action(%Offer{} = offer) do
     %{to: ~p"/products/#{offer.product_id}", label: "Ver produto"}
