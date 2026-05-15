@@ -25,7 +25,7 @@ defmodule BazarWeb.UserSessionController do
       _ ->
         conn
         |> put_flash(:error, "The link is invalid or it has expired.")
-        |> redirect(to: ~p"/backoffice/users/log-in")
+        |> redirect(to: ~p"/backoffice/login")
     end
   end
 
@@ -42,7 +42,7 @@ defmodule BazarWeb.UserSessionController do
       conn
       |> put_flash(:error, "Invalid email or password")
       |> put_flash(:email, String.slice(email, 0, 160))
-      |> redirect(to: ~p"/backoffice/users/log-in")
+      |> redirect(to: ~p"/backoffice/login")
     end
   end
 

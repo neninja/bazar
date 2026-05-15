@@ -8,12 +8,12 @@ defmodule BazarWeb.UserSessionControllerTest do
     %{unconfirmed_user: unconfirmed_user_fixture(), user: user_fixture()}
   end
 
-  describe "POST /backoffice/users/log-in - email and password" do
+  describe "POST /backoffice/login - email and password" do
     test "logs the user in", %{conn: conn, user: user} do
       user = set_password(user)
 
       conn =
-        post(conn, ~p"/backoffice/users/log-in", %{
+        post(conn, ~p"/backoffice/login", %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
         })
 
@@ -32,7 +32,7 @@ defmodule BazarWeb.UserSessionControllerTest do
       user = set_password(user)
 
       conn =
-        post(conn, ~p"/backoffice/users/log-in", %{
+        post(conn, ~p"/backoffice/login", %{
           "user" => %{
             "email" => user.email,
             "password" => valid_user_password(),
@@ -50,7 +50,7 @@ defmodule BazarWeb.UserSessionControllerTest do
       conn =
         conn
         |> init_test_session(user_return_to: "/foo/bar")
-        |> post(~p"/backoffice/users/log-in", %{
+        |> post(~p"/backoffice/login", %{
           "user" => %{
             "email" => user.email,
             "password" => valid_user_password()
@@ -63,21 +63,21 @@ defmodule BazarWeb.UserSessionControllerTest do
 
     test "redirects to login page with invalid credentials", %{conn: conn, user: user} do
       conn =
-        post(conn, ~p"/backoffice/users/log-in?mode=password", %{
+        post(conn, ~p"/backoffice/login?mode=password", %{
           "user" => %{"email" => user.email, "password" => "invalid_password"}
         })
 
       assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Invalid email or password"
-      assert redirected_to(conn) == ~p"/backoffice/users/log-in"
+      assert redirected_to(conn) == ~p"/backoffice/login"
     end
   end
 
-  describe "POST /backoffice/users/log-in - magic link" do
+  describe "POST /backoffice/login - magic link" do
     test "logs the user in", %{conn: conn, user: user} do
       {token, _hashed_token} = generate_user_magic_link_token(user)
 
       conn =
-        post(conn, ~p"/backoffice/users/log-in", %{
+        post(conn, ~p"/backoffice/login", %{
           "user" => %{"token" => token}
         })
 
@@ -97,7 +97,7 @@ defmodule BazarWeb.UserSessionControllerTest do
       refute user.confirmed_at
 
       conn =
-        post(conn, ~p"/backoffice/users/log-in", %{
+        post(conn, ~p"/backoffice/login", %{
           "user" => %{"token" => token},
           "_action" => "confirmed"
         })
@@ -118,14 +118,14 @@ defmodule BazarWeb.UserSessionControllerTest do
 
     test "redirects to login page when magic link is invalid", %{conn: conn} do
       conn =
-        post(conn, ~p"/backoffice/users/log-in", %{
+        post(conn, ~p"/backoffice/login", %{
           "user" => %{"token" => "invalid"}
         })
 
       assert Phoenix.Flash.get(conn.assigns.flash, :error) ==
                "The link is invalid or it has expired."
 
-      assert redirected_to(conn) == ~p"/backoffice/users/log-in"
+      assert redirected_to(conn) == ~p"/backoffice/login"
     end
   end
 

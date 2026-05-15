@@ -83,11 +83,11 @@ defmodule BazarWeb.Router do
     live_session :current_user,
       on_mount: [{BazarWeb.UserAuth, :mount_current_scope}] do
       live "/users/register", Backoffice.UserLive.Registration, :new
-      live "/users/log-in", Backoffice.UserLive.Login, :new
-      live "/users/log-in/:token", Backoffice.UserLive.Confirmation, :new
+      live "/login", Backoffice.UserLive.Login, :new
+      live "/login/:token", Backoffice.UserLive.Confirmation, :new
     end
 
-    post "/users/log-in", UserSessionController, :create
+    post "/login", UserSessionController, :create
     delete "/users/log-out", UserSessionController, :delete
   end
 end

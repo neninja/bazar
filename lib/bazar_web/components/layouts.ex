@@ -124,10 +124,6 @@ defmodule BazarWeb.Layouts do
                   <span class="sr-only">Sair</span>
                 </.link>
               </li>
-            <% else %>
-              <li>
-                <.link href={~p"/backoffice/users/log-in"}>Entrar</.link>
-              </li>
             <% end %>
           </ul>
         </div>

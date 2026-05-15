@@ -93,6 +93,7 @@ Visitante anônimo: pessoa presente no evento com smartphone. Não tem conta, n�
 #### Comportamento
 
 - Toda alteração reflete reativamente todos clientes conectados
+- Caso um cliente esteja com um produto que foi indisponibilizado, ele é rredirecionado
 
 ### 6. Usuário vê e aceita ou recusa propostas (`/backoffice/offers`)
 

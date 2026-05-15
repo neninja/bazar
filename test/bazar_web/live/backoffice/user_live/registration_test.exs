@@ -48,7 +48,7 @@ defmodule BazarWeb.Backoffice.UserLive.RegistrationTest do
 
       {:ok, _lv, html} =
         render_submit(form)
-        |> follow_redirect(conn, ~p"/backoffice/users/log-in")
+        |> follow_redirect(conn, ~p"/backoffice/login")
 
       assert html =~
                ~r/An email was sent to .*, please access it to confirm your account/
@@ -80,7 +80,7 @@ defmodule BazarWeb.Backoffice.UserLive.RegistrationTest do
         lv
         |> element("main a", "Log in")
         |> render_click()
-        |> follow_redirect(conn, ~p"/backoffice/users/log-in")
+        |> follow_redirect(conn, ~p"/backoffice/login")
 
       assert login_html =~ "Log in"
     end

@@ -224,7 +224,7 @@ defmodule BazarWeb.UserAuth do
       socket =
         socket
         |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
-        |> Phoenix.LiveView.redirect(to: ~p"/backoffice/users/log-in")
+        |> Phoenix.LiveView.redirect(to: ~p"/backoffice/login")
 
       {:halt, socket}
     end
@@ -239,7 +239,7 @@ defmodule BazarWeb.UserAuth do
       socket =
         socket
         |> Phoenix.LiveView.put_flash(:error, "You must re-authenticate to access this page.")
-        |> Phoenix.LiveView.redirect(to: ~p"/backoffice/users/log-in")
+        |> Phoenix.LiveView.redirect(to: ~p"/backoffice/login")
 
       {:halt, socket}
     end
@@ -278,7 +278,7 @@ defmodule BazarWeb.UserAuth do
       conn
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
-      |> redirect(to: ~p"/backoffice/users/log-in")
+      |> redirect(to: ~p"/backoffice/login")
       |> halt()
     end
   end
