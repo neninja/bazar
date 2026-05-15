@@ -45,6 +45,7 @@ config :phoenix_test,
   otp_app: :bazar,
   endpoint: BazarWeb.Endpoint,
   playwright: [
+    ecto_sandbox_stop_owner_delay: 100,
     browser_pool: :chromium_pool,
     headless: true,
     # slow_mo: :timer.seconds(1),

@@ -68,7 +68,7 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
               <p class="text-sm leading-relaxed">{@product.sale_reason}</p>
             </div>
 
-            <div class="flex justify-between">
+            <div class="flex gap-2">
               <div :if={@product.ludopedia_link && @product.ludopedia_link != ""}>
                 <a
                   href={@product.ludopedia_link}
@@ -76,7 +76,7 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
                   rel="noopener noreferrer"
                   class="btn btn-outline btn-sm gap-2 w-full"
                 >
-                  <.icon name="hero-arrow-top-right-on-square" class="size-4" />Ver no Ludopedia
+                  <.icon name="hero-arrow-top-right-on-square" class="size-4" />Ludopedia
                 </a>
               </div>
               <div :if={@product.youtube_link && @product.youtube_link != ""}>
@@ -86,7 +86,7 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
                   rel="noopener noreferrer"
                   class="btn btn-outline btn-sm gap-2 w-full"
                 >
-                  <.icon name="hero-arrow-top-right-on-square" class="size-4" />Ver no Ludopedia
+                  <.icon name="hero-arrow-top-right-on-square" class="size-4" />Youtube
                 </a>
               </div>
             </div>
