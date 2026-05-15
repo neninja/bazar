@@ -16,6 +16,7 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
       current_scope={@current_scope}
       viewer_count={@viewer_count}
       viewer_label="na loja"
+      offer_notification={@offer_notification}
     >
       <div class="min-h-screen bg-base-200 pb-8">
         <div :if={@product} class="max-w-xl mx-auto">
@@ -139,6 +140,7 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
        product: nil,
        product_id: nil,
        offer: nil,
+       offer_notification: nil,
        offer_form: to_form(Offers.change_offer(%Offer{}))
      )}
   end
@@ -212,14 +214,28 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
     end
   end
 
+  def handle_event("dismiss_offer_notification", _params, socket) do
+    {:noreply, assign(socket, :offer_notification, nil)}
+  end
+
   @impl true
   def handle_info(%Phoenix.Socket.Broadcast{event: "presence_diff", topic: @lobby_topic}, socket) do
     {:noreply, socket}
   end
 
-  def handle_info({:offer_updated, %Offer{product_id: product_id} = offer}, socket)
+  def handle_info({:offer_saved, %Offer{product_id: product_id} = offer}, socket)
       when product_id == socket.assigns.product.id do
     {:noreply, assign(socket, offer: offer, offer_form: to_offer_form(offer))}
+  end
+
+  def handle_info({:offer_updated, %Offer{product_id: product_id} = offer}, socket)
+      when product_id == socket.assigns.product.id do
+    {:noreply,
+     assign(socket,
+       offer: offer,
+       offer_form: to_offer_form(offer),
+       offer_notification: offer_notification(offer)
+     )}
   end
 
   def handle_info(%Phoenix.Socket.Broadcast{event: "presence_diff"}, socket) do
@@ -250,6 +266,18 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
   defp offer_status_class(%Offer{status: "rejected"}), do: "bg-error/15 text-error"
   defp offer_status_class(%Offer{status: "pending"}), do: "bg-warning/15 text-warning"
   defp offer_status_class(_), do: "bg-base-200 text-base-content/60"
+
+  defp offer_notification(%Offer{} = offer) do
+    %{
+      product_name: offer.product.description || "Produto #{offer.product_id}",
+      product_path: ~p"/products/#{offer.product_id}",
+      status_text: notification_status_text(offer)
+    }
+  end
+
+  defp notification_status_text(%Offer{status: "accepted"}), do: "Sua proposta foi aceita em "
+  defp notification_status_text(%Offer{status: "rejected"}), do: "Sua proposta foi recusada em "
+  defp notification_status_text(_offer), do: "Sua proposta mudou em "
 
   defp format_price(%Decimal{} = price) do
     value = price |> Decimal.round(2) |> Decimal.to_string()

@@ -2,10 +2,14 @@ defmodule StorefrontTest do
   use PhoenixTest.Playwright.Case, async: false
   use BazarWeb, :verified_routes
 
+  import Ecto.Query
   import Bazar.AccountsFixtures
   import Bazar.CatalogFixtures
 
   alias Bazar.Accounts.Scope
+  alias Bazar.Offers
+  alias Bazar.Offers.Offer
+  alias Bazar.Repo
 
   setup do
     user = user_fixture()
@@ -16,6 +20,10 @@ defmodule StorefrontTest do
   defp track_extra_viewer(topic) do
     {:ok, _} =
       BazarWeb.Presence.track(self(), topic, "extra-viewer-#{System.unique_integer()}", %{})
+  end
+
+  defp get_product_offer(product) do
+    Repo.one!(from o in Offer, where: o.product_id == ^product.id)
   end
 
   describe "listagem de produtos" do
@@ -101,6 +109,96 @@ defmodule StorefrontTest do
       conn
       |> visit(~p"/products/#{product.id}")
       |> assert_has("span", text: "2 na loja")
+    end
+  end
+
+  describe "propostas do visitante" do
+    setup %{scope: scope} do
+      product =
+        product_fixture(scope, %{
+          description: "Brass Birmingham",
+          price: "320.00",
+          trade_policy: "Venda ou Troca",
+          tags: ["Estratégia", "Euro"]
+        })
+
+      {:ok, product: product}
+    end
+
+    test "envia proposta anonima pela página do produto", %{conn: conn, product: product} do
+      conn
+      |> visit(~p"/products/#{product.id}")
+      |> assert_has("#visitor-offer-form")
+      |> fill_in("Sua proposta", with: "Consigo pagar R$ 280 hoje")
+      |> click_button("Enviar proposta")
+      |> assert_has("[role=alert]", text: "Proposta enviada.")
+      |> assert_has("#product-offer-panel", text: "Pendente")
+
+      offer = get_product_offer(product)
+      assert offer.body == "Consigo pagar R$ 280 hoje"
+      assert offer.status == "pending"
+    end
+
+    test "edita proposta existente e volta para pendente", %{
+      conn: conn,
+      scope: scope,
+      product: product
+    } do
+      session =
+        conn
+        |> visit(~p"/products/#{product.id}")
+        |> fill_in("Sua proposta", with: "Proposta inicial de R$ 260")
+        |> click_button("Enviar proposta")
+        |> assert_has("#product-offer-panel", text: "Pendente")
+
+      offer = get_product_offer(product)
+      {:ok, _accepted_offer} = Offers.update_offer_status(scope, offer.id, "accepted")
+
+      session
+      |> assert_has("#product-offer-panel", text: "Aceita")
+      |> fill_in("Sua proposta", with: "Atualizo para R$ 290")
+      |> click_button("Enviar proposta")
+      |> assert_has("[role=alert]", text: "Proposta enviada.")
+      |> assert_has("#product-offer-panel", text: "Pendente")
+
+      edited_offer = Repo.get!(Offer, offer.id)
+      assert edited_offer.body == "Atualizo para R$ 290"
+      assert edited_offer.status == "pending"
+    end
+
+    test "recebe notificação quando a situação da proposta muda", %{
+      conn: conn,
+      scope: scope,
+      product: product
+    } do
+      session =
+        conn
+        |> visit(~p"/products/#{product.id}")
+        |> assert_has("#product-offer-panel", text: "Nova")
+        |> fill_in("Sua proposta", with: "Pago R$ 300 se puder retirar agora")
+        |> click_button("Enviar proposta")
+        |> assert_has("[role=alert]", text: "Proposta enviada.")
+        |> assert_has("#product-offer-panel", text: "Pendente")
+
+      offer = get_product_offer(product)
+
+      session =
+        session
+        |> visit(~p"/")
+        |> assert_has("#storefront-products", text: product.description)
+
+      {:ok, _accepted_offer} = Offers.update_offer_status(scope, offer.id, "accepted")
+
+      session
+      |> assert_has("#offer-update-toast", text: "Proposta atualizada")
+      |> assert_has("#offer-update-toast", text: "Sua proposta foi aceita")
+      |> assert_has("#offer-update-toast", text: product.description)
+      |> assert_has("#offer-update-toast a[href='/products/#{product.id}']",
+        text: product.description
+      )
+      |> click("#offer-update-toast a")
+      |> assert_path(~p"/products/#{product.id}")
+      |> assert_has("#product-offer-panel", text: "Aceita")
     end
   end
 end

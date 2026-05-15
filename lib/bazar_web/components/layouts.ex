@@ -62,6 +62,10 @@ defmodule BazarWeb.Layouts do
     default: "na loja",
     doc: "the label shown next to the viewer count"
 
+  attr :offer_notification, :map,
+    default: nil,
+    doc: "an offer update notification for the current anonymous session"
+
   slot :inner_block, required: true
 
   def storefront(assigns) do
@@ -137,6 +141,38 @@ defmodule BazarWeb.Layouts do
       >
         <.icon name="hero-eye" class="size-4" />
         <span>{@viewer_count} {@viewer_label}</span>
+      </div>
+
+      <div
+        :if={@offer_notification}
+        id="offer-update-toast"
+        role="alert"
+        class="toast toast-top toast-end z-50"
+      >
+        <div class="alert alert-info w-80 max-w-80 text-wrap shadow-lg sm:w-96 sm:max-w-96">
+          <.icon name="hero-bell-alert" class="size-5 shrink-0" />
+          <div>
+            <p class="font-semibold">Proposta atualizada</p>
+            <p class="text-sm">
+              {@offer_notification.status_text}
+              <.link
+                navigate={@offer_notification.product_path}
+                class="font-semibold underline underline-offset-2"
+              >
+                {@offer_notification.product_name}
+              </.link>
+            </p>
+          </div>
+          <div class="flex-1" />
+          <button
+            type="button"
+            class="group self-start cursor-pointer"
+            aria-label="fechar notificacao"
+            phx-click="dismiss_offer_notification"
+          >
+            <.icon name="hero-x-mark" class="size-5 opacity-40 group-hover:opacity-70" />
+          </button>
+        </div>
       </div>
 
       {render_slot(@inner_block)}

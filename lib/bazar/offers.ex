@@ -59,7 +59,7 @@ defmodule Bazar.Offers do
            insert_or_update_offer(product, anonymous_session_id, existing_offer, attrs) do
       offer = Repo.preload(offer, :product)
       broadcast_offer(product.user_id, {:offer_upserted, offer})
-      broadcast_visitor_offer(anonymous_session_id, {:offer_updated, offer})
+      broadcast_visitor_offer(anonymous_session_id, {:offer_saved, offer})
       {:ok, offer}
     end
   end

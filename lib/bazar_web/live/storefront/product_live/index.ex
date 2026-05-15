@@ -2,6 +2,8 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
   use BazarWeb, :live_view
 
   alias Bazar.Catalog
+  alias Bazar.Offers
+  alias Bazar.Offers.Offer
   alias BazarWeb.Presence
 
   @lobby_topic "storefront:lobby"
@@ -14,6 +16,7 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
       current_scope={@current_scope}
       viewer_count={@viewer_count}
       viewer_label="na loja"
+      offer_notification={@offer_notification}
     >
       <div class="min-h-screen bg-base-200 pb-8">
         <div class="max-w-xl mx-auto px-3 pt-5">
@@ -60,9 +63,10 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
     if connected?(socket) do
       {:ok, _} = Presence.track(self(), @lobby_topic, socket.id, %{})
       BazarWeb.Endpoint.subscribe(@lobby_topic)
+      Offers.subscribe_visitor_offers(socket.assigns.anonymous_session_id)
     end
 
-    {:ok, assign(socket, :viewer_count, count_viewers(@lobby_topic))}
+    {:ok, assign(socket, viewer_count: count_viewers(@lobby_topic), offer_notification: nil)}
   end
 
   @impl true
@@ -78,7 +82,30 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
     {:noreply, assign(socket, :viewer_count, count_viewers(@lobby_topic))}
   end
 
+  def handle_info({:offer_saved, %Offer{}}, socket), do: {:noreply, socket}
+
+  def handle_info({:offer_updated, %Offer{} = offer}, socket) do
+    {:noreply, assign(socket, :offer_notification, offer_notification(offer))}
+  end
+
+  @impl true
+  def handle_event("dismiss_offer_notification", _params, socket) do
+    {:noreply, assign(socket, :offer_notification, nil)}
+  end
+
   defp count_viewers(topic), do: topic |> Presence.list() |> map_size()
+
+  defp offer_notification(%Offer{} = offer) do
+    %{
+      product_name: offer.product.description || "Produto #{offer.product_id}",
+      product_path: ~p"/products/#{offer.product_id}",
+      status_text: notification_status_text(offer)
+    }
+  end
+
+  defp notification_status_text(%Offer{status: "accepted"}), do: "Sua proposta foi aceita em "
+  defp notification_status_text(%Offer{status: "rejected"}), do: "Sua proposta foi recusada em "
+  defp notification_status_text(_offer), do: "Sua proposta mudou em "
 
   defp format_price(%Decimal{} = price) do
     value = price |> Decimal.round(2) |> Decimal.to_string()

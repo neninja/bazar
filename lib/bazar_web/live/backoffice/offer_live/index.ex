@@ -64,10 +64,13 @@ defmodule BazarWeb.Backoffice.OfferLive.Index do
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div class="min-w-0 space-y-2">
                     <div class="flex flex-wrap items-center gap-2">
-                      <span class={[
-                        "rounded-full px-2.5 py-1 text-xs font-semibold",
-                        status_class(offer)
-                      ]}>
+                      <span
+                        id={"offer-status-#{offer.id}"}
+                        class={[
+                          "rounded-full px-2.5 py-1 text-xs font-semibold",
+                          status_class(offer)
+                        ]}
+                      >
                         {status_label(offer)}
                       </span>
                       <span class="rounded-full bg-base-200 px-2.5 py-1 text-xs font-medium text-base-content/60">
