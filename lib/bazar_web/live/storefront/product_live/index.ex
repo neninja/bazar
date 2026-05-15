@@ -20,7 +20,17 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
     >
       <div class="min-h-screen bg-base-200 pb-8">
         <div class="max-w-xl mx-auto px-3 pt-5">
-          <div class="grid grid-cols-2 gap-3" id="storefront-products">
+          <div
+            id="storefront-products"
+            phx-update="stream"
+            class="grid grid-cols-2 gap-3"
+          >
+            <div
+              id="storefront-products-empty"
+              class="col-span-2 hidden rounded-lg border border-dashed border-base-300 bg-base-100/70 p-8 text-center text-sm text-base-content/60 only:block"
+            >
+              Nenhum produto disponível.
+            </div>
             <div :for={{dom_id, product} <- @streams.products} id={dom_id}>
               <div class="card bg-base-100 shadow-sm h-full">
                 <figure :if={product.image_url && product.image_url != ""}>

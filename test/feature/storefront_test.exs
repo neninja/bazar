@@ -48,6 +48,7 @@ defmodule StorefrontTest do
     test "exibe os produtos cadastrados na página inicial", %{conn: conn, products: [p1, p2]} do
       conn
       |> visit(~p"/")
+      |> assert_has("#storefront-products[phx-update='stream']")
       |> assert_has("p", text: p1.description)
       |> assert_has("p", text: "R$ 120,00")
       |> assert_has("span", text: "Estratégia")
@@ -147,8 +148,10 @@ defmodule StorefrontTest do
       session =
         conn
         |> visit(~p"/products/#{product.id}")
+        |> assert_has("#product-offer-panel", text: "Nova")
         |> fill_in("Sua proposta", with: "Proposta inicial de R$ 260")
         |> click_button("Enviar proposta")
+        |> assert_has("body", text: "Proposta enviada.")
         |> assert_has("#product-offer-panel", text: "Pendente")
 
       offer = get_product_offer(product)
