@@ -6,7 +6,7 @@ defmodule Bazar.Repo.Migrations.CreateProducts do
       add :image_url, :string
       add :ludopedia_link, :string
       add :youtube_link, :string
-      add :description, :text
+      add :title, :text
       add :sale_reason, :text
       add :condition, :string
       add :condition_detail, :string

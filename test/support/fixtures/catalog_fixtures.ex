@@ -12,7 +12,7 @@ defmodule Bazar.CatalogFixtures do
       Enum.into(attrs, %{
         condition: "Seminovo",
         condition_detail: "some detail",
-        description: "some description",
+        title: "some title",
         image_url: "some image_url",
         ludopedia_link: "some ludopedia_link",
         youtube_link: "some ludopedia_link",

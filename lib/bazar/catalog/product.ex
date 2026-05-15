@@ -20,7 +20,7 @@ defmodule Bazar.Catalog.Product do
     field :image_url, :string
     field :ludopedia_link, :string
     field :youtube_link, :string
-    field :description, :string
+    field :title, :string
     field :sale_reason, :string
     field :condition, :string
     field :condition_detail, :string
@@ -43,7 +43,7 @@ defmodule Bazar.Catalog.Product do
       :image_url,
       :ludopedia_link,
       :youtube_link,
-      :description,
+      :title,
       :sale_reason,
       :condition,
       :condition_detail,
@@ -54,7 +54,7 @@ defmodule Bazar.Catalog.Product do
       :is_available
     ])
     |> maybe_put_user_id(scope)
-    |> validate_required([:description, :price, :trade_policy])
+    |> validate_required([:title, :price, :trade_policy])
     |> validate_subset(:tags, @available_tags)
     |> validate_inclusion(:trade_policy, @trade_options)
     |> validate_inclusion(:condition, @conditions)

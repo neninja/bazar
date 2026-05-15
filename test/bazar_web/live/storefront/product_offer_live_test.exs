@@ -14,7 +14,7 @@ defmodule BazarWeb.Storefront.ProductOfferLiveTest do
   setup do
     user = user_fixture()
     scope = Scope.for_user(user)
-    product = product_fixture(scope, description: "Cascadia", price: "180.00")
+    product = product_fixture(scope, title: "Cascadia", price: "180.00")
 
     {:ok, scope: scope, product: product}
   end

@@ -38,12 +38,12 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
                     src={product.image_url}
                     loading="lazy"
                     class="w-full aspect-square object-cover"
-                    alt={product.description}
+                    alt={product.title}
                   />
                 </figure>
                 <div class="card-body p-3 gap-2">
                   <p class="font-bold text-primary text-lg">{format_price(product.price)}</p>
-                  <p class="text-sm text-base-content/70 line-clamp-3">{product.description}</p>
+                  <p class="text-sm text-base-content/70 line-clamp-3">{product.title}</p>
                   <div :if={product.tags not in [nil, []]} class="flex flex-wrap gap-1">
                     <span :for={tag <- product.tags} class="badge badge-outline badge-xs">
                       {tag}
@@ -113,7 +113,7 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
     do: "Sua proposta foi atualizada em #{product_name(offer)}."
 
   defp product_name(%Offer{} = offer),
-    do: offer.product.description || "Produto #{offer.product_id}"
+    do: offer.product.title || "Produto #{offer.product_id}"
 
   defp offer_flash_action(%Offer{} = offer) do
     %{to: ~p"/products/#{offer.product_id}", label: "Ver produto"}

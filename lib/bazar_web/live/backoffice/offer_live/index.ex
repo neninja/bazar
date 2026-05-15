@@ -48,7 +48,7 @@ defmodule BazarWeb.Backoffice.OfferLive.Index do
                 <img
                   :if={present?(offer.product.image_url)}
                   src={offer.product.image_url}
-                  alt={offer.product.description || "Imagem do produto"}
+                  alt={offer.product.title || "Imagem do produto"}
                   class="h-36 w-full object-cover sm:h-full"
                   loading="lazy"
                 />
@@ -82,7 +82,7 @@ defmodule BazarWeb.Backoffice.OfferLive.Index do
                       navigate={~p"/backoffice/products/#{offer.product}"}
                       class="block text-base font-semibold leading-6 text-base-content transition hover:text-primary"
                     >
-                      {offer.product.description || "Produto sem descrição"}
+                      {offer.product.title || "Produto sem descrição"}
                     </.link>
                   </div>
 

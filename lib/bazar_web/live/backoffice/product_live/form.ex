@@ -35,7 +35,7 @@ defmodule BazarWeb.Backoffice.ProductLive.Form do
               <.input field={@form[:youtube_link]} type="text" label="Youtube link" />
             </div>
             <div class="sm:col-span-2">
-              <.input field={@form[:description]} type="textarea" label="Description" rows="5" />
+              <.input field={@form[:title]} type="textarea" label="title" rows="5" />
             </div>
             <div class="sm:col-span-2">
               <.input field={@form[:sale_reason]} type="textarea" label="Sale reason" rows="4" />

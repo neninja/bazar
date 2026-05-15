@@ -32,7 +32,7 @@ defmodule ProductCrudTest do
       |> fill_in("Image url", with: "http://exemplo.com/imagem.jpg")
       |> fill_in("Ludopedia link", with: "http://ludopedia.com.br/jogo/exemplo")
       |> fill_in("Youtube link", with: "http://youtube.com.br/blabla")
-      |> fill_in("Description", with: "Excelente jogo de estratégia para toda a família")
+      |> fill_in("title", with: "Excelente jogo de estratégia para toda a família")
       |> fill_in("Sale reason", with: "Já jogamos bastante, hora de passar adiante")
       |> select("Condition", option: "Seminovo", exact: false)
       |> fill_in("Condição em detalhe", with: "Manual avariado")
@@ -55,10 +55,10 @@ defmodule ProductCrudTest do
       conn
       |> log_in(user)
       |> visit(~p"/backoffice/products")
-      |> assert_has("td", text: product.description)
+      |> assert_has("td", text: product.title)
       |> click_link("Edit")
       |> assert_has("h1", text: "Edit Product")
-      |> fill_in("Description", with: "Descrição atualizada via e2e", exact: false)
+      |> fill_in("title", with: "Descrição atualizada via e2e", exact: false)
       |> fill_in("Price", with: "200")
       |> click_button("Save Product")
       |> assert_has("[role=alert]", text: "Product updated successfully")
@@ -109,7 +109,7 @@ defmodule ProductCrudTest do
       |> click("[data-testid='toggle-availability']")
       |> assert_has("[data-testid='toggle-availability'][data-available='false']")
       |> visit(~p"/")
-      |> refute_has("p", text: product.description)
+      |> refute_has("p", text: product.title)
     end
   end
 end

@@ -24,7 +24,7 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
             <img
               src={@product.image_url}
               class="w-full aspect-square object-cover"
-              alt={@product.description}
+              alt={@product.title}
             />
           </figure>
 
@@ -57,7 +57,7 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
 
             <div>
               <p class="font-semibold text-base-content/70 text-sm mb-1">Descrição</p>
-              <p class="text-sm leading-relaxed">{@product.description}</p>
+              <p class="text-sm leading-relaxed">{@product.title}</p>
             </div>
 
             <div :if={@product.sale_reason && @product.sale_reason != ""}>
@@ -288,7 +288,7 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
     do: "Sua proposta foi atualizada em #{product_name(offer)}."
 
   defp product_name(%Offer{} = offer),
-    do: offer.product.description || "Produto #{offer.product_id}"
+    do: offer.product.title || "Produto #{offer.product_id}"
 
   defp offer_flash_action(%Offer{} = offer) do
     %{to: ~p"/products/#{offer.product_id}", label: "Ver produto"}

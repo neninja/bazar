@@ -10,7 +10,7 @@ defmodule Bazar.CatalogTest do
     import Bazar.CatalogFixtures
 
     @invalid_attrs %{
-      description: nil,
+      title: nil,
       image_url: nil,
       ludopedia_link: nil,
       youtube_link: nil,
@@ -42,7 +42,7 @@ defmodule Bazar.CatalogTest do
 
     test "create_product/2 with valid data creates a product" do
       valid_attrs = %{
-        description: "some description",
+        title: "some title",
         image_url: "some image_url",
         ludopedia_link: "some ludopedia_link",
         youtube_link: "some youtube_link",
@@ -58,7 +58,7 @@ defmodule Bazar.CatalogTest do
       scope = user_scope_fixture()
 
       assert {:ok, %Product{} = product} = Catalog.create_product(scope, valid_attrs)
-      assert product.description == "some description"
+      assert product.title == "some title"
       assert product.image_url == "some image_url"
       assert product.ludopedia_link == "some ludopedia_link"
       assert product.youtube_link == "some youtube_link"
@@ -82,7 +82,7 @@ defmodule Bazar.CatalogTest do
       product = product_fixture(scope)
 
       update_attrs = %{
-        description: "some updated description",
+        title: "some updated title",
         image_url: "some updated image_url",
         ludopedia_link: "some updated ludopedia_link",
         youtube_link: "some youtube_link",
@@ -96,7 +96,7 @@ defmodule Bazar.CatalogTest do
       }
 
       assert {:ok, %Product{} = product} = Catalog.update_product(scope, product, update_attrs)
-      assert product.description == "some updated description"
+      assert product.title == "some updated title"
       assert product.image_url == "some updated image_url"
       assert product.ludopedia_link == "some updated ludopedia_link"
       assert product.youtube_link == "some youtube_link"

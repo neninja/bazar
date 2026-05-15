@@ -30,14 +30,14 @@ defmodule StorefrontTest do
     setup %{scope: scope} do
       product1 =
         product_fixture(scope, %{
-          description: "Catan - Colonizadores de Catan",
+          title: "Catan - Colonizadores de Catan",
           price: "120.00",
           tags: ["Estratégia", "Euro"]
         })
 
       product2 =
         product_fixture(scope, %{
-          description: "Ticket to Ride",
+          title: "Ticket to Ride",
           price: "200.50",
           tags: ["Carteado"]
         })
@@ -49,17 +49,17 @@ defmodule StorefrontTest do
       conn
       |> visit(~p"/")
       |> assert_has("#storefront-products[phx-update='stream']")
-      |> assert_has("p", text: p1.description)
+      |> assert_has("p", text: p1.title)
       |> assert_has("p", text: "R$ 120,00")
       |> assert_has("span", text: "Estratégia")
       |> assert_has("span", text: "Euro")
-      |> assert_has("p", text: p2.description)
+      |> assert_has("p", text: p2.title)
       |> assert_has("p", text: "R$ 200,50")
       |> assert_has("span", text: "Carteado")
     end
 
     test "não exibe produtos indisponíveis", %{conn: conn, scope: scope} do
-      product_fixture(scope, %{description: "Produto Já Vendido", is_available: false})
+      product_fixture(scope, %{title: "Produto Já Vendido", is_available: false})
 
       conn
       |> visit(~p"/")
@@ -79,7 +79,7 @@ defmodule StorefrontTest do
     setup %{scope: scope} do
       product =
         product_fixture(scope, %{
-          description: "Pandemic - O Jogo Cooperativo",
+          title: "Pandemic - O Jogo Cooperativo",
           price: "180.00",
           sale_reason: "Presente duplicado, nunca usado",
           recommendation: "Ideal para 2 a 4 jogadores",
@@ -95,7 +95,7 @@ defmodule StorefrontTest do
       conn
       |> visit(~p"/products/#{product.id}")
       |> assert_has("p", text: "R$ 180,00")
-      |> assert_has("p", text: product.description)
+      |> assert_has("p", text: product.title)
       |> assert_has("span", text: "Cooperativo")
       |> assert_has("span", text: "Estratégia")
       |> assert_has("span", text: "Seminovo")
@@ -117,7 +117,7 @@ defmodule StorefrontTest do
     setup %{scope: scope} do
       product =
         product_fixture(scope, %{
-          description: "Brass Birmingham",
+          title: "Brass Birmingham",
           price: "320.00",
           trade_policy: "Venda ou Troca",
           tags: ["Estratégia", "Euro"]
@@ -188,12 +188,12 @@ defmodule StorefrontTest do
       session =
         session
         |> visit(~p"/")
-        |> assert_has("#storefront-products", text: product.description)
+        |> assert_has("#storefront-products", text: product.title)
 
       {:ok, _accepted_offer} = Offers.update_offer_status(scope, offer.id, "accepted")
 
       session
-      |> assert_has("[role=alert]", text: "Sua proposta foi aceita em #{product.description}.")
+      |> assert_has("[role=alert]", text: "Sua proposta foi aceita em #{product.title}.")
       |> assert_has("[role=alert] a[href='/products/#{product.id}']", text: "Ver produto")
       |> click_link("[role=alert]", "Ver produto")
       |> assert_path(~p"/products/#{product.id}")

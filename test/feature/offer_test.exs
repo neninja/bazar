@@ -16,7 +16,7 @@ defmodule OfferFeatureTest do
 
     product =
       product_fixture(scope, %{
-        description: "Brass Birmingham",
+        title: "Brass Birmingham",
         price: "320.00",
         trade_policy: "Venda ou Troca",
         tags: ["Estratégia", "Euro"]
@@ -49,10 +49,10 @@ defmodule OfferFeatureTest do
       |> log_in(user)
       |> visit(~p"/backoffice/offers")
       |> assert_has("h1", text: "Propostas")
-      |> assert_has("#offers", text: product.description)
+      |> assert_has("#offers", text: product.title)
       |> assert_has("#offers", text: offer.body)
       |> assert_has("#offers", text: "Pendente")
-      |> click_link(product.description)
+      |> click_link(product.title)
       |> assert_path(~p"/backoffice/products/#{product.id}")
     end
 

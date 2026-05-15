@@ -5,7 +5,7 @@ defmodule BazarWeb.Backoffice.ProductLiveTest do
   import Bazar.CatalogFixtures
 
   @create_attrs %{
-    description: "some description",
+    title: "some title",
     image_url: "some image_url",
     ludopedia_link: "some ludopedia_link",
     sale_reason: "some sale_reason",
@@ -16,7 +16,7 @@ defmodule BazarWeb.Backoffice.ProductLiveTest do
     trade_policy: "Somente Venda"
   }
   @update_attrs %{
-    description: "some updated description",
+    title: "some updated title",
     image_url: "some updated image_url",
     ludopedia_link: "some updated ludopedia_link",
     sale_reason: "some updated sale_reason",
@@ -27,7 +27,7 @@ defmodule BazarWeb.Backoffice.ProductLiveTest do
     trade_policy: "Somente Venda"
   }
   @invalid_attrs %{
-    description: nil,
+    title: nil,
     image_url: nil,
     ludopedia_link: nil,
     sale_reason: nil,

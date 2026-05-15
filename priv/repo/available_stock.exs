@@ -20,7 +20,7 @@ scope = Scope.for_user(admin)
 
 seed_products = [
   %{
-    description: "Exploding Kittens Proibidão",
+    title: "Exploding Kittens Proibidão",
     ludopedia_link: "https://ludopedia.com.br/jogo/exploding-kittens-nsfw-deck",
     ludopedia_link: "https://www.youtube.com/watch?v=tfnsQz336eo",
     image_url: "https://storage.googleapis.com/ludopedia-capas/9635_t.jpg",
@@ -33,7 +33,7 @@ seed_products = [
     trade_policy: "Venda ou Troca"
   },
   %{
-    description: "Krosmaster Arena 2.0",
+    title: "Krosmaster Arena 2.0",
     ludopedia_link: "https://ludopedia.com.br/jogo/krosmaster-arena-2-0",
     youtube_link: "https://www.youtube.com/watch?v=YyJo6sRiwf4",
     image_url: "https://storage.googleapis.com/ludopedia-capas/11456_t.jpg",
@@ -46,7 +46,7 @@ seed_products = [
     trade_policy: "Somente Venda"
   },
   %{
-    description: "Sushi Go!",
+    title: "Sushi Go!",
     ludopedia_link: "https://ludopedia.com.br/jogo/sushi-go",
     youtube_link: "https://www.youtube.com/watch?v=yZROK0a1N4s",
     image_url: "https://storage.googleapis.com/ludopedia-capas/2528_t.jpg",
@@ -59,7 +59,7 @@ seed_products = [
     trade_policy: "Venda ou Troca"
   },
   %{
-    description: "Citadels: Segunda Edição Revisada",
+    title: "Citadels: Segunda Edição Revisada",
     ludopedia_link: "https://ludopedia.com.br/jogo/citadels-revised-2nd-edition",
     youtube_link: "https://www.youtube.com/watch?v=4lxo9zwa6IQ",
     image_url: "https://storage.googleapis.com/ludopedia-capas/39795_t.jpg",
@@ -72,7 +72,7 @@ seed_products = [
     trade_policy: "Venda ou Troca"
   },
   %{
-    description: "Timeline",
+    title: "Timeline",
     ludopedia_link: "https://ludopedia.com.br/jogo/timeline-classic",
     youtube_link: "https://www.youtube.com/watch?v=dD1Qp1R3dto",
     image_url: "https://storage.googleapis.com/ludopedia-capas/20335_t.jpg",
@@ -84,7 +84,7 @@ seed_products = [
     trade_policy: "Venda ou Troca"
   },
   %{
-    description: "Pandemic: Zona Crítica - Europa",
+    title: "Pandemic: Zona Crítica - Europa",
     ludopedia_link: "https://ludopedia.com.br/jogo/pandemic-hot-zone-europe",
     youtube_link: "https://www.youtube.com/watch?v=_oNgrahQ_lQ",
     image_url: "https://storage.googleapis.com/ludopedia-capas/29051_t.jpg",
@@ -96,7 +96,7 @@ seed_products = [
     trade_policy: "Venda ou Troca"
   },
   %{
-    description: "Bang! The Dice Game",
+    title: "Bang! The Dice Game",
     ludopedia_link: "https://ludopedia.com.br/jogo/bang-the-dice-game",
     youtube_link: "https://www.youtube.com/watch?v=MAM4c-bKUhs",
     image_url: "https://storage.googleapis.com/ludopedia-capas/2060_t.jpg",
@@ -111,7 +111,7 @@ seed_products = [
 ]
 
 insert_or_update_product = fn attrs ->
-  case Repo.get_by(Product, description: attrs.description, user_id: admin.id) do
+  case Repo.get_by(Product, title: attrs.title, user_id: admin.id) do
     nil ->
       %Product{}
       |> Product.changeset(attrs, scope)

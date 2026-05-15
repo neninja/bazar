@@ -40,7 +40,7 @@ defmodule BazarWeb.Backoffice.ProductLive.Show do
               <img
                 :if={present?(@product.image_url)}
                 src={@product.image_url}
-                alt={@product.description || "Imagem do produto"}
+                alt={@product.title || "Imagem do produto"}
                 class="h-64 w-full object-cover sm:h-full"
               />
               <div
@@ -121,9 +121,9 @@ defmodule BazarWeb.Backoffice.ProductLive.Show do
 
               <div class="space-y-4">
                 <section>
-                  <h2 class="text-sm font-semibold text-base-content/70">Description</h2>
+                  <h2 class="text-sm font-semibold text-base-content/70">title</h2>
                   <p class="mt-1 whitespace-pre-line text-sm leading-6 text-base-content">
-                    {@product.description}
+                    {@product.title}
                   </p>
                 </section>
 

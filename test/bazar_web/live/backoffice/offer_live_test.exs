@@ -9,7 +9,7 @@ defmodule BazarWeb.Backoffice.OfferLiveTest do
   setup :register_and_log_in_user
 
   defp create_offer(%{scope: scope}) do
-    product = product_fixture(scope, description: "Azul edição nacional")
+    product = product_fixture(scope, title: "Azul edição nacional")
     offer = offer_fixture(product, "visitor-1", body: "Pago R$ 120")
 
     %{product: product, offer: offer}
@@ -22,7 +22,7 @@ defmodule BazarWeb.Backoffice.OfferLiveTest do
       {:ok, _view, html} = live(conn, ~p"/backoffice/offers")
 
       assert html =~ "Propostas"
-      assert html =~ product.description
+      assert html =~ product.title
       assert html =~ offer.body
       assert html =~ "Pendente"
     end
