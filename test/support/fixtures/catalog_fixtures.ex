@@ -25,4 +25,14 @@ defmodule Bazar.CatalogFixtures do
     {:ok, product} = Bazar.Catalog.create_product(scope, attrs)
     product
   end
+
+  def offer_fixture(product, anonymous_session_id \\ "visitor-session", attrs \\ %{}) do
+    attrs =
+      Enum.into(attrs, %{
+        body: "Tenho interesse por R$ 100"
+      })
+
+    {:ok, offer} = Bazar.Offers.upsert_visitor_offer(product, anonymous_session_id, attrs)
+    offer
+  end
 end

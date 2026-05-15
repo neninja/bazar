@@ -2,6 +2,8 @@ defmodule Bazar.Catalog.Product do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Bazar.Offers.Offer
+
   @available_tags ["Estratégia", "Carteado", "Party Game", "Cooperativo", "Euro", "Ameritrash"]
   @trade_options ["Somente Venda", "Venda ou Troca"]
   @conditions ["Seminovo", "Com marcas de uso", "Danificado"]
@@ -18,6 +20,8 @@ defmodule Bazar.Catalog.Product do
     field :trade_policy, :string
     field :is_available, :boolean, default: true
     field :user_id, :id
+
+    has_many :offers, Offer
 
     timestamps(type: :utc_datetime)
   end

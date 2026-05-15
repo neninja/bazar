@@ -6,6 +6,7 @@ defmodule BazarWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
+    plug BazarWeb.AnonymousSession, :fetch
     plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
@@ -70,6 +71,7 @@ defmodule BazarWeb.Router do
       live "/products/new", Backoffice.ProductLive.Form, :new
       live "/products/:id", Backoffice.ProductLive.Show, :show
       live "/products/:id/edit", Backoffice.ProductLive.Form, :edit
+      live "/offers", Backoffice.OfferLive.Index, :index
     end
 
     post "/users/update-password", UserSessionController, :update_password

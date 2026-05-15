@@ -17,13 +17,21 @@ defmodule BazarWeb.Backoffice.ProductLive.Index do
             </p>
           </div>
 
-          <.button
-            variant="primary"
-            navigate={~p"/backoffice/products/new"}
-            class="btn btn-primary w-full gap-2 transition-transform hover:-translate-y-0.5 sm:w-auto"
-          >
-            <.icon name="hero-plus" class="size-4" /> New Product
-          </.button>
+          <div class="grid grid-cols-2 gap-2 sm:flex">
+            <.button
+              navigate={~p"/backoffice/offers"}
+              class="btn btn-primary btn-soft gap-2 transition-transform hover:-translate-y-0.5"
+            >
+              <.icon name="hero-inbox" class="size-4" /> Propostas
+            </.button>
+            <.button
+              variant="primary"
+              navigate={~p"/backoffice/products/new"}
+              class="btn btn-primary gap-2 transition-transform hover:-translate-y-0.5"
+            >
+              <.icon name="hero-plus" class="size-4" /> New Product
+            </.button>
+          </div>
         </div>
 
         <table class="w-full border-separate border-spacing-y-3">
