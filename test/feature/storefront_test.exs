@@ -71,7 +71,7 @@ defmodule StorefrontTest do
 
       conn
       |> visit(~p"/")
-      |> assert_has("span", text: "2 na loja")
+      |> assert_has("span", text: "2 passeando na loja")
     end
   end
 
@@ -109,7 +109,7 @@ defmodule StorefrontTest do
 
       conn
       |> visit(~p"/products/#{product.id}")
-      |> assert_has("span", text: "2 na loja")
+      |> assert_has("span", text: "2 investigando esse jogo")
     end
   end
 

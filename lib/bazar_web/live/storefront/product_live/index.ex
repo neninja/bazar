@@ -16,7 +16,7 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
       flash_action={@flash_action}
       current_scope={@current_scope}
       viewer_count={@viewer_count}
-      viewer_label="na loja"
+      viewer_label="passeando na loja"
     >
       <div class="min-h-screen bg-base-200 pb-8">
         <div class="max-w-xl mx-auto px-3 pt-5">
@@ -32,34 +32,27 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
               Nenhum produto disponível.
             </div>
             <div :for={{dom_id, product} <- @streams.products} id={dom_id}>
-              <div class="card bg-base-100 shadow-sm h-full">
-                <figure :if={product.image_url && product.image_url != ""}>
-                  <img
-                    src={product.image_url}
-                    loading="lazy"
-                    class="w-full aspect-square object-cover"
-                    alt={product.title}
-                  />
-                </figure>
-                <div class="card-body p-3 gap-2">
-                  <p class="font-bold text-primary text-lg">{format_price(product.price)}</p>
-                  <p class="text-sm text-base-content/70 line-clamp-3">{product.title}</p>
-                  <div :if={product.tags not in [nil, []]} class="flex flex-wrap gap-1">
-                    <span :for={tag <- product.tags} class="badge badge-outline badge-xs">
-                      {tag}
-                    </span>
-                  </div>
-                  <div class="card-actions mt-auto pt-1">
-                    <.button
-                      variant="primary"
-                      navigate={~p"/products/#{product.id}"}
-                      class="btn-sm w-full"
-                    >
-                      Ver mais
-                    </.button>
+              <.link navigate={~p"/products/#{product.id}"}>
+                <div class="card bg-base-100 shadow-sm h-full">
+                  <figure :if={product.image_url && product.image_url != ""}>
+                    <img
+                      src={product.image_url}
+                      loading="lazy"
+                      class="w-full aspect-square object-cover"
+                      alt={product.title}
+                    />
+                  </figure>
+                  <div class="card-body p-3 gap-2">
+                    <p class="font-bold text-primary text-lg">{format_price(product.price)}</p>
+                    <p class="text-sm text-base-content/70 line-clamp-3">{product.title}</p>
+                    <div :if={product.tags not in [nil, []]} class="flex flex-wrap gap-1">
+                      <span :for={tag <- product.tags} class="badge badge-outline badge-xs">
+                        {tag}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </.link>
             </div>
           </div>
         </div>

@@ -78,7 +78,7 @@ defmodule BazarWeb.Layouts do
 
             <div
               :if={!is_nil(@viewer_count)}
-              class="hidden sm:flex items-center gap-1.5 text-sm text-base-content/60"
+              class="flex items-center gap-1.5 text-sm text-base-content/60"
             >
               <.icon name="hero-eye" class="size-4" />
               <span>{@viewer_count} {@viewer_label}</span>
@@ -128,14 +128,6 @@ defmodule BazarWeb.Layouts do
           </ul>
         </div>
       </nav>
-
-      <div
-        :if={!is_nil(@viewer_count)}
-        class="sm:hidden flex items-center justify-center gap-1.5 bg-base-100 border-b border-base-300 py-2 text-xs text-base-content/60"
-      >
-        <.icon name="hero-eye" class="size-4" />
-        <span>{@viewer_count} {@viewer_label}</span>
-      </div>
 
       {render_slot(@inner_block)}
     </main>

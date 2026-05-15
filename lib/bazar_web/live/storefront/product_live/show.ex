@@ -16,7 +16,7 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
       flash_action={@flash_action}
       current_scope={@current_scope}
       viewer_count={@viewer_count}
-      viewer_label="na loja"
+      viewer_label="investigando esse jogo"
     >
       <div class="min-h-screen bg-base-200 pb-8">
         <div :if={@product} class="max-w-xl mx-auto">
@@ -39,6 +39,9 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
             <div class="divider my-0"></div>
 
             <div class="space-y-2 text-sm">
+              <div>
+                <p class="text-xl leading-relaxed">{@product.title}</p>
+              </div>
               <div :if={@product.condition && @product.condition != ""}>
                 <span class="font-semibold text-base-content/70">Condição:</span>
                 <span class="ml-1">{@product.condition}</span>
@@ -48,47 +51,44 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
                 <span class="ml-1">{@product.condition_detail}</span>
               </div>
               <div>
-                <span class="font-semibold text-base-content/70">Troca:</span>
+                <span class="font-semibold text-base-content/70">Negócio:</span>
                 <span class="ml-1">{@product.trade_policy}</span>
               </div>
             </div>
 
             <div class="divider my-0"></div>
 
-            <div>
-              <p class="font-semibold text-base-content/70 text-sm mb-1">Descrição</p>
-              <p class="text-sm leading-relaxed">{@product.title}</p>
-            </div>
-
-            <div :if={@product.sale_reason && @product.sale_reason != ""}>
-              <p class="font-semibold text-base-content/70 text-sm mb-1">Por que estou vendendo</p>
-              <p class="text-sm leading-relaxed">{@product.sale_reason}</p>
-            </div>
-
             <div :if={@product.recommendation && @product.recommendation != ""}>
-              <p class="font-semibold text-base-content/70 text-sm mb-1">Recomendo para</p>
+              <p class="font-semibold text-base-content/70 text-sm mb-1">Recomendação pessoal</p>
               <p class="text-sm leading-relaxed">{@product.recommendation}</p>
             </div>
 
-            <div :if={@product.ludopedia_link && @product.ludopedia_link != ""}>
-              <a
-                href={@product.ludopedia_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-outline btn-sm gap-2 w-full"
-              >
-                <.icon name="hero-arrow-top-right-on-square" class="size-4" />Ver no Ludopedia
-              </a>
+            <div :if={@product.sale_reason && @product.sale_reason != ""}>
+              <p class="font-semibold text-base-content/70 text-sm mb-1">Motivo do desapego</p>
+              <p class="text-sm leading-relaxed">{@product.sale_reason}</p>
             </div>
-            <div :if={@product.youtube_link && @product.youtube_link != ""}>
-              <a
-                href={@product.youtube_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-outline btn-sm gap-2 w-full"
-              >
-                <.icon name="hero-arrow-top-right-on-square" class="size-4" />Ver no Ludopedia
-              </a>
+
+            <div class="flex justify-between">
+              <div :if={@product.ludopedia_link && @product.ludopedia_link != ""}>
+                <a
+                  href={@product.ludopedia_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-outline btn-sm gap-2 w-full"
+                >
+                  <.icon name="hero-arrow-top-right-on-square" class="size-4" />Ver no Ludopedia
+                </a>
+              </div>
+              <div :if={@product.youtube_link && @product.youtube_link != ""}>
+                <a
+                  href={@product.youtube_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-outline btn-sm gap-2 w-full"
+                >
+                  <.icon name="hero-arrow-top-right-on-square" class="size-4" />Ver no Ludopedia
+                </a>
+              </div>
             </div>
 
             <section
