@@ -23,5 +23,5 @@ mix setup
 - Inicie o servidor
 
 ```shell
-mix phx.server
+mix server
 ```

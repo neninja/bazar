@@ -32,6 +32,9 @@ defmodule BazarWeb.Backoffice.ProductLive.Form do
               <.input field={@form[:ludopedia_link]} type="text" label="Ludopedia link" />
             </div>
             <div class="sm:col-span-2">
+              <.input field={@form[:youtube_link]} type="text" label="Youtube link" />
+            </div>
+            <div class="sm:col-span-2">
               <.input field={@form[:description]} type="textarea" label="Description" rows="5" />
             </div>
             <div class="sm:col-span-2">
@@ -44,6 +47,9 @@ defmodule BazarWeb.Backoffice.ProductLive.Form do
               label="Condition"
               options={Bazar.Catalog.Product.conditions()}
             />
+            <div class="sm:col-span-2">
+              <.input field={@form[:condition_detail]} type="text" label="Condição em detalhe" />
+            </div>
             <.input field={@form[:price]} type="number" label="Price" step="any" />
             <div class="sm:col-span-2">
               <.input

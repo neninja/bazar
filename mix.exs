@@ -95,7 +95,9 @@ defmodule Bazar.MixProject do
         "esbuild bazar --minify",
         "phx.digest"
       ],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]
+      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"],
+      fresh: ["stock.reset"],
+      server: ["phx.server"]
     ]
   end
 end

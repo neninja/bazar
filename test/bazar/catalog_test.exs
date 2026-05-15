@@ -13,6 +13,8 @@ defmodule Bazar.CatalogTest do
       description: nil,
       image_url: nil,
       ludopedia_link: nil,
+      youtube_link: nil,
+      condition_detail: nil,
       sale_reason: nil,
       condition: nil,
       recommendation: nil,
@@ -43,8 +45,10 @@ defmodule Bazar.CatalogTest do
         description: "some description",
         image_url: "some image_url",
         ludopedia_link: "some ludopedia_link",
+        youtube_link: "some youtube_link",
         sale_reason: "some sale_reason",
         condition: "Seminovo",
+        condition_detail: "some detail",
         recommendation: "some recommendation",
         tags: ["Carteado"],
         price: "120.5",
@@ -57,8 +61,10 @@ defmodule Bazar.CatalogTest do
       assert product.description == "some description"
       assert product.image_url == "some image_url"
       assert product.ludopedia_link == "some ludopedia_link"
+      assert product.youtube_link == "some youtube_link"
       assert product.sale_reason == "some sale_reason"
       assert product.condition == "Seminovo"
+      assert product.condition_detail == "some detail"
       assert product.recommendation == "some recommendation"
       assert product.tags == ["Carteado"]
       assert product.price == Decimal.new("120.5")
@@ -79,8 +85,10 @@ defmodule Bazar.CatalogTest do
         description: "some updated description",
         image_url: "some updated image_url",
         ludopedia_link: "some updated ludopedia_link",
+        youtube_link: "some youtube_link",
         sale_reason: "some updated sale_reason",
         condition: "Danificado",
+        condition_detail: "some detail",
         recommendation: "some updated recommendation",
         tags: ["Carteado"],
         price: "456.7",
@@ -91,8 +99,10 @@ defmodule Bazar.CatalogTest do
       assert product.description == "some updated description"
       assert product.image_url == "some updated image_url"
       assert product.ludopedia_link == "some updated ludopedia_link"
+      assert product.youtube_link == "some youtube_link"
       assert product.sale_reason == "some updated sale_reason"
       assert product.condition == "Danificado"
+      assert product.condition_detail == "some detail"
       assert product.recommendation == "some updated recommendation"
       assert product.tags == ["Carteado"]
       assert product.price == Decimal.new("456.7")

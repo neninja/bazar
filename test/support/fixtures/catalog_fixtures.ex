@@ -11,9 +11,11 @@ defmodule Bazar.CatalogFixtures do
     attrs =
       Enum.into(attrs, %{
         condition: "Seminovo",
+        condition_detail: "some detail",
         description: "some description",
         image_url: "some image_url",
         ludopedia_link: "some ludopedia_link",
+        youtube_link: "some ludopedia_link",
         price: "120.5",
         recommendation: "some recommendation",
         sale_reason: "some sale_reason",

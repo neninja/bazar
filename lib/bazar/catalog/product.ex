@@ -4,16 +4,26 @@ defmodule Bazar.Catalog.Product do
 
   alias Bazar.Offers.Offer
 
-  @available_tags ["Estratégia", "Carteado", "Party Game", "Cooperativo", "Euro", "Ameritrash"]
+  @available_tags [
+    "Estratégia",
+    "Carteado",
+    "Party Game",
+    "Cooperativo",
+    "Euro",
+    "Ameritrash",
+    "Família"
+  ]
   @trade_options ["Somente Venda", "Venda ou Troca"]
   @conditions ["Seminovo", "Com marcas de uso", "Danificado"]
 
   schema "products" do
     field :image_url, :string
     field :ludopedia_link, :string
+    field :youtube_link, :string
     field :description, :string
     field :sale_reason, :string
     field :condition, :string
+    field :condition_detail, :string
     field :recommendation, :string
     field :tags, {:array, :string}
     field :price, :decimal
@@ -32,9 +42,11 @@ defmodule Bazar.Catalog.Product do
     |> cast(attrs, [
       :image_url,
       :ludopedia_link,
+      :youtube_link,
       :description,
       :sale_reason,
       :condition,
+      :condition_detail,
       :recommendation,
       :tags,
       :price,

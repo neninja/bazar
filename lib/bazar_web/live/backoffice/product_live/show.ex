@@ -92,6 +92,14 @@ defmodule BazarWeb.Backoffice.ProductLive.Show do
                   <p class="mt-1 text-base-content/80">{@product.condition || "Não informada"}</p>
                 </div>
                 <div>
+                  <p class="text-xs font-semibold uppercase text-base-content/50">
+                    Condição em detalhe
+                  </p>
+                  <p class="mt-1 text-base-content/80">
+                    {@product.condition_detail || "Não informada"}
+                  </p>
+                </div>
+                <div>
                   <p class="text-xs font-semibold uppercase text-base-content/50">Image url</p>
                   <p class="mt-1 break-all text-base-content/80">
                     {@product.image_url || "Sem imagem"}
@@ -101,6 +109,12 @@ defmodule BazarWeb.Backoffice.ProductLive.Show do
                   <p class="text-xs font-semibold uppercase text-base-content/50">Ludopedia link</p>
                   <p class="mt-1 break-all text-base-content/80">
                     {@product.ludopedia_link || "Sem link"}
+                  </p>
+                </div>
+                <div class="sm:col-span-2">
+                  <p class="text-xs font-semibold uppercase text-base-content/50">Youtube link</p>
+                  <p class="mt-1 break-all text-base-content/80">
+                    {@product.youtube_link || "Sem link"}
                   </p>
                 </div>
               </div>

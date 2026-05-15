@@ -43,6 +43,10 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
                 <span class="font-semibold text-base-content/70">Condição:</span>
                 <span class="ml-1">{@product.condition}</span>
               </div>
+              <div :if={@product.condition_detail && @product.condition_detail != ""}>
+                <span class="font-semibold text-base-content/70">Condição em detalhe:</span>
+                <span class="ml-1">{@product.condition_detail}</span>
+              </div>
               <div>
                 <span class="font-semibold text-base-content/70">Troca:</span>
                 <span class="ml-1">{@product.trade_policy}</span>
@@ -73,7 +77,17 @@ defmodule BazarWeb.Storefront.ProductLive.Show do
                 rel="noopener noreferrer"
                 class="btn btn-outline btn-sm gap-2 w-full"
               >
-                <.icon name="hero-arrow-top-right-on-square" class="size-4" /> Ver no Ludopedia
+                <.icon name="hero-arrow-top-right-on-square" class="size-4" />Ver no Ludopedia
+              </a>
+            </div>
+            <div :if={@product.youtube_link && @product.youtube_link != ""}>
+              <a
+                href={@product.youtube_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline btn-sm gap-2 w-full"
+              >
+                <.icon name="hero-arrow-top-right-on-square" class="size-4" />Ver no Ludopedia
               </a>
             </div>
 

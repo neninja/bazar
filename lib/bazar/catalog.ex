@@ -146,7 +146,7 @@ defmodule Bazar.Catalog do
   end
 
   def list_all_products do
-    from(p in Product, where: p.is_available == true)
+    from(p in Product, where: p.is_available == true, order_by: [asc: p.description])
     |> Repo.all()
   end
 

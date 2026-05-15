@@ -8,6 +8,10 @@ Experiência de desenvolvimento (DX)
 
 Igual ao disposto no [README](./README.md)
 
+### Banco
+
+- `mix fresh` recria banco com seed
+
 ### Debug
 
 - Utilize `dbg`
