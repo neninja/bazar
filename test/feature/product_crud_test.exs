@@ -88,6 +88,7 @@ defmodule ProductCrudTest do
       conn
       |> log_in(user)
       |> visit(~p"/backoffice/products")
+      |> assert_has(".phx-connected")
       |> assert_has("[data-testid='toggle-availability'][data-available='true']")
       |> click("[data-testid='toggle-availability']")
       |> assert_has("[data-testid='toggle-availability'][data-available='false']")
@@ -101,6 +102,8 @@ defmodule ProductCrudTest do
       conn
       |> log_in(user)
       |> visit(~p"/backoffice/products")
+      |> assert_has(".phx-connected")
+      |> assert_has("[data-testid='toggle-availability'][data-available='true']")
       |> click("[data-testid='toggle-availability']")
       |> assert_has("[data-testid='toggle-availability'][data-available='false']")
       |> visit(~p"/")

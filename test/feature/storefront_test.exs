@@ -193,13 +193,9 @@ defmodule StorefrontTest do
       {:ok, _accepted_offer} = Offers.update_offer_status(scope, offer.id, "accepted")
 
       session
-      |> assert_has("#offer-update-toast", text: "Proposta atualizada")
-      |> assert_has("#offer-update-toast", text: "Sua proposta foi aceita")
-      |> assert_has("#offer-update-toast", text: product.description)
-      |> assert_has("#offer-update-toast a[href='/products/#{product.id}']",
-        text: product.description
-      )
-      |> click("#offer-update-toast a")
+      |> assert_has("[role=alert]", text: "Sua proposta foi aceita em #{product.description}.")
+      |> assert_has("[role=alert] a[href='/products/#{product.id}']", text: "Ver produto")
+      |> click_link("[role=alert]", "Ver produto")
       |> assert_path(~p"/products/#{product.id}")
       |> assert_has("#product-offer-panel", text: "Aceita")
     end

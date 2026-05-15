@@ -110,7 +110,8 @@ defmodule BazarWeb.Backoffice.ProductLive.Index do
                             data-testid="toggle-availability"
                             data-available={to_string(product.is_available)}
                             checked={product.is_available}
-                            phx-click={JS.push("toggle_availability", value: %{id: product.id})}
+                            phx-click="toggle_availability"
+                            phx-value-id={product.id}
                           />
                         </label>
                       </div>
@@ -211,9 +212,9 @@ defmodule BazarWeb.Backoffice.ProductLive.Index do
   @impl true
   def handle_event("toggle_availability", %{"id" => id}, socket) do
     product = Catalog.get_product!(socket.assigns.current_scope, id)
-    {:ok, _} = Catalog.toggle_availability(socket.assigns.current_scope, product)
+    {:ok, product} = Catalog.toggle_availability(socket.assigns.current_scope, product)
 
-    {:noreply, socket}
+    {:noreply, stream_insert(socket, :products, product)}
   end
 
   @impl true

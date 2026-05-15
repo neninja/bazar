@@ -43,6 +43,7 @@ defmodule BazarWeb.CoreComponents do
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil
   attr :kind, :atom, values: [:info, :error], doc: "used for styling and flash lookup"
+  attr :action, :map, default: nil, doc: "an optional action link shown inside the flash"
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
@@ -69,6 +70,13 @@ defmodule BazarWeb.CoreComponents do
         <div>
           <p :if={@title} class="font-semibold">{@title}</p>
           <p>{msg}</p>
+          <.link
+            :if={@action}
+            navigate={@action.to}
+            class="mt-2 inline-flex items-center gap-1 text-sm font-semibold underline underline-offset-2"
+          >
+            {@action.label}
+          </.link>
         </div>
         <div class="flex-1" />
         <button type="button" class="group self-start cursor-pointer" aria-label={gettext("close")}>

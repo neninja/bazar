@@ -13,10 +13,10 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
     ~H"""
     <Layouts.storefront
       flash={@flash}
+      flash_action={@flash_action}
       current_scope={@current_scope}
       viewer_count={@viewer_count}
       viewer_label="na loja"
-      offer_notification={@offer_notification}
     >
       <div class="min-h-screen bg-base-200 pb-8">
         <div class="max-w-xl mx-auto px-3 pt-5">
@@ -76,7 +76,7 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
       Offers.subscribe_visitor_offers(socket.assigns.anonymous_session_id)
     end
 
-    {:ok, assign(socket, viewer_count: count_viewers(@lobby_topic), offer_notification: nil)}
+    {:ok, assign(socket, viewer_count: count_viewers(@lobby_topic), flash_action: nil)}
   end
 
   @impl true
@@ -95,27 +95,29 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
   def handle_info({:offer_saved, %Offer{}}, socket), do: {:noreply, socket}
 
   def handle_info({:offer_updated, %Offer{} = offer}, socket) do
-    {:noreply, assign(socket, :offer_notification, offer_notification(offer))}
-  end
-
-  @impl true
-  def handle_event("dismiss_offer_notification", _params, socket) do
-    {:noreply, assign(socket, :offer_notification, nil)}
+    {:noreply,
+     socket
+     |> put_flash(:info, offer_flash_message(offer))
+     |> assign(:flash_action, offer_flash_action(offer))}
   end
 
   defp count_viewers(topic), do: topic |> Presence.list() |> map_size()
 
-  defp offer_notification(%Offer{} = offer) do
-    %{
-      product_name: offer.product.description || "Produto #{offer.product_id}",
-      product_path: ~p"/products/#{offer.product_id}",
-      status_text: notification_status_text(offer)
-    }
-  end
+  defp offer_flash_message(%Offer{status: "accepted"} = offer),
+    do: "Sua proposta foi aceita em #{product_name(offer)}."
 
-  defp notification_status_text(%Offer{status: "accepted"}), do: "Sua proposta foi aceita em "
-  defp notification_status_text(%Offer{status: "rejected"}), do: "Sua proposta foi recusada em "
-  defp notification_status_text(_offer), do: "Sua proposta mudou em "
+  defp offer_flash_message(%Offer{status: "rejected"} = offer),
+    do: "Sua proposta foi recusada em #{product_name(offer)}."
+
+  defp offer_flash_message(%Offer{} = offer),
+    do: "Sua proposta foi atualizada em #{product_name(offer)}."
+
+  defp product_name(%Offer{} = offer),
+    do: offer.product.description || "Produto #{offer.product_id}"
+
+  defp offer_flash_action(%Offer{} = offer) do
+    %{to: ~p"/products/#{offer.product_id}", label: "Ver produto"}
+  end
 
   defp format_price(%Decimal{} = price) do
     value = price |> Decimal.round(2) |> Decimal.to_string()

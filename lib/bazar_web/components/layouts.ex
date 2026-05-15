@@ -26,6 +26,7 @@ defmodule BazarWeb.Layouts do
 
   """
   attr :flash, :map, required: true, doc: "the map of flash messages"
+  attr :flash_action, :map, default: nil, doc: "an optional action link for the info flash"
 
   attr :current_scope, :map,
     default: nil,
@@ -41,7 +42,7 @@ defmodule BazarWeb.Layouts do
       </div>
     </main>
 
-    <.flash_group flash={@flash} />
+    <.flash_group flash={@flash} flash_action={@flash_action} />
     """
   end
 
@@ -49,6 +50,7 @@ defmodule BazarWeb.Layouts do
   Renders the public storefront layout
   """
   attr :flash, :map, required: true, doc: "the map of flash messages"
+  attr :flash_action, :map, default: nil, doc: "an optional action link for the info flash"
 
   attr :current_scope, :map,
     default: nil,
@@ -61,10 +63,6 @@ defmodule BazarWeb.Layouts do
   attr :viewer_label, :string,
     default: "na loja",
     doc: "the label shown next to the viewer count"
-
-  attr :offer_notification, :map,
-    default: nil,
-    doc: "an offer update notification for the current anonymous session"
 
   slot :inner_block, required: true
 
@@ -143,42 +141,10 @@ defmodule BazarWeb.Layouts do
         <span>{@viewer_count} {@viewer_label}</span>
       </div>
 
-      <div
-        :if={@offer_notification}
-        id="offer-update-toast"
-        role="alert"
-        class="toast toast-top toast-end z-50"
-      >
-        <div class="alert alert-info w-80 max-w-80 text-wrap shadow-lg sm:w-96 sm:max-w-96">
-          <.icon name="hero-bell-alert" class="size-5 shrink-0" />
-          <div>
-            <p class="font-semibold">Proposta atualizada</p>
-            <p class="text-sm">
-              {@offer_notification.status_text}
-              <.link
-                navigate={@offer_notification.product_path}
-                class="font-semibold underline underline-offset-2"
-              >
-                {@offer_notification.product_name}
-              </.link>
-            </p>
-          </div>
-          <div class="flex-1" />
-          <button
-            type="button"
-            class="group self-start cursor-pointer"
-            aria-label="fechar notificacao"
-            phx-click="dismiss_offer_notification"
-          >
-            <.icon name="hero-x-mark" class="size-5 opacity-40 group-hover:opacity-70" />
-          </button>
-        </div>
-      </div>
-
       {render_slot(@inner_block)}
     </main>
 
-    <.flash_group flash={@flash} />
+    <.flash_group flash={@flash} flash_action={@flash_action} />
     """
   end
 
@@ -191,11 +157,12 @@ defmodule BazarWeb.Layouts do
   """
   attr :flash, :map, required: true, doc: "the map of flash messages"
   attr :id, :string, default: "flash-group", doc: "the optional id of flash container"
+  attr :flash_action, :map, default: nil, doc: "an optional action link for the info flash"
 
   def flash_group(assigns) do
     ~H"""
     <div id={@id} aria-live="polite">
-      <.flash kind={:info} flash={@flash} />
+      <.flash kind={:info} flash={@flash} action={@flash_action} />
       <.flash kind={:error} flash={@flash} />
 
       <.flash
