@@ -7,3 +7,7 @@ e2e:
 
 setup:
 	mix setup
+
+fresh:
+	mix setup
+	mix stock.reset
