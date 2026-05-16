@@ -120,7 +120,71 @@ seed_products = [
     price: Decimal.new("140.00"),
     trade_policy: "Venda ou Troca"
   },
+  %{
+    title: "Puerto Rico",
+    ludopedia_link: "https://ludopedia.com.br/jogo/puerto-rico",
+    youtube_link: "https://www.youtube.com/watch?v=id7fY0g7vwk",
+    image_url: "https://paladinsgames.com.br/uploads/produto_fotos/20190115105840_puertorico01.jpg",
+    sale_reason: "Grupo não gosta muito desse tipo de euro",
+    condition: "Seminovo",
+    condition_detail: "Insert caseiro com sleeve",
+    recommendation: "Funciona bem com 2 ou 3, 5 tem mt downtime",
+    tags: ["Euro"],
+    price: Decimal.new("250.00"),
+    trade_policy: "Venda ou Troca"
+  },
+  %{
+    title: "Splendor",
+    ludopedia_link: "https://ludopedia.com.br/jogo/splendor",
+    youtube_link: "https://www.youtube.com/watch?v=_47Q6obKlz8",
+    image_url: "https://paladinsgames.com.br/uploads/produto_fotos/20250120115838_splendor.png",
+    sale_reason: "Temos outra cópia com o grupo, não é necessário ter duas",
+    condition: "Seminovo",
+    recommendation: "Funciona bem com 3 e 4",
+    tags: ["Família"],
+    price: Decimal.new("150.00"),
+    trade_policy: "Venda ou Troca"
+  },
+  %{
+    title: "Sagrada versão antiga",
+    ludopedia_link: "https://ludopedia.com.br/jogo/sagrada",
+    youtube_link: "https://www.youtube.com/watch?v=ml4ppETAOO4",
+    image_url: "https://paladinsgames.com.br/uploads/produto_fotos/2_20181127110909_sagrada01.jpg",
+    sale_reason: "Pela similaridade, o jogo Azul vê mais mesa",
+    condition: "Danificado",
+    condition_detail: "Pontos de mofo",
+    recommendation: "funciona bem de 2 a 4",
+    tags: ["Família"],
+    price: Decimal.new("180.00"),
+    trade_policy: "Venda ou Troca"
+  },
+  %{
+    title: "Catan + Expansão 6 jogadores",
+    ludopedia_link: "https://ludopedia.com.br/jogo/catan-the-settlers-of-catan",
+    youtube_link: "https://www.youtube.com/watch?v=BV8GQgNizQQ",
+    image_url: "https://paladinsgames.com.br/uploads/produto_fotos/20190114104245_catan01.jpg",
+    sale_reason: "Temos outra cópia com o grupo, não é necessário ter duas",
+    condition: "Seminovo",
+    recommendation: "Funciona bem com 3 e 4",
+    tags: ["Família"],
+    price: Decimal.new("250.00"),
+    trade_policy: "Venda ou Troca"
+  },
+  %{
+    title: "Fornalha",
+    ludopedia_link: "https://ludopedia.com.br/jogo/furnace",
+    youtube_link: "https://www.youtube.com/watch?v=tWjTJFYJSuE",
+    image_url: "https://paizinhovirgula.com/wp-content/uploads/2022/03/Fornalha-caixa.png",
+    sale_reason: "Apesar das ótimas mecanicas de draft e manejamento de recursos, não foi muito jogado pelo perfil da mesa",
+    condition: "Seminovo",
+    condition_detail: "Insert caseiro",
+    tags: ["Família"],
+    price: Decimal.new("200.00"),
+    trade_policy: "Venda ou Troca"
+  },
 ]
+
+
 
 insert_or_update_product = fn attrs ->
   case Repo.get_by(Product, title: attrs.title, user_id: admin.id) do

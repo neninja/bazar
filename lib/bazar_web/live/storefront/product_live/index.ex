@@ -43,8 +43,8 @@ defmodule BazarWeb.Storefront.ProductLive.Index do
                     />
                   </figure>
                   <div class="card-body p-3 gap-2">
-                    <p class="font-bold text-primary text-lg">{format_price(product.price)}</p>
                     <p class="text-sm text-base-content/70 line-clamp-3">{product.title}</p>
+                    <p class="font-bold text-primary text-lg">{format_price(product.price)}</p>
                     <div :if={product.tags not in [nil, []]} class="flex flex-wrap gap-1">
                       <span :for={tag <- product.tags} class="badge badge-outline badge-xs">
                         {tag}

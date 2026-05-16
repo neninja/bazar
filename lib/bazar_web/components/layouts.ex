@@ -36,7 +36,7 @@ defmodule BazarWeb.Layouts do
 
   def app(assigns) do
     ~H"""
-    <main class="px-4 py-20 sm:px-6 lg:px-8">
+    <main class="px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-2xl space-y-4">
         {render_slot(@inner_block)}
       </div>
@@ -71,11 +71,12 @@ defmodule BazarWeb.Layouts do
     <main>
       <nav class="navbar bg-base-100 border-b border-base-300 sticky top-0 z-30 shadow-sm">
         <div class="mx-auto flex w-full max-w-xl items-center justify-between px-3">
-          <div class="flex items-center gap-3">
+          <div class="nav-start">
             <.link href={~p"/"} class="text-lg font-bold tracking-tight">
               Bazar
             </.link>
-
+          </div>
+          <div class="nav-center">
             <div
               :if={!is_nil(@viewer_count)}
               class="flex items-center gap-1.5 text-sm text-base-content/60"
@@ -84,51 +85,21 @@ defmodule BazarWeb.Layouts do
               <span>{@viewer_count} {@viewer_label}</span>
             </div>
           </div>
-
-          <ul class="menu menu-horizontal items-center gap-1 text-sm">
+          <div class="nav-end">
+            <.theme_toggle />
             <%= if @current_scope && @current_scope.user do %>
-              <li>
-                <.theme_toggle />
-              </li>
-              <li>
-                {@current_scope.user.email}
-              </li>
-              <li>
-                <.link
-                  href={~p"/backoffice/products"}
-                  aria-label="Ir para o backoffice"
-                  title="Backoffice"
-                >
-                  <.icon name="hero-briefcase" class="size-5" />
-                  <span class="sr-only">Backoffice</span>
-                </.link>
-              </li>
-              <li class="hidden md:block">
-                <.link
-                  href={~p"/backoffice/users/settings"}
-                  aria-label="Abrir configurações da conta"
-                  title="Settings"
-                >
-                  <.icon name="hero-cog-6-tooth" class="size-5" />
-                  <span class="sr-only">Settings</span>
-                </.link>
-              </li>
-              <li>
-                <.link
-                  href={~p"/backoffice/users/log-out"}
-                  method="delete"
-                  aria-label="Sair da conta"
-                  title="Sair"
-                >
-                  <.icon name="hero-arrow-right-start-on-rectangle" class="size-5" />
-                  <span class="sr-only">Sair</span>
-                </.link>
-              </li>
+              <.link
+                href={~p"/backoffice/products"}
+                aria-label="Ir para o backoffice"
+                title="Backoffice"
+              >
+                <.icon name="hero-briefcase" class="size-5" />
+                <span class="sr-only">Backoffice</span>
+              </.link>
             <% end %>
-          </ul>
+          </div>
         </div>
       </nav>
-
       {render_slot(@inner_block)}
     </main>
 
